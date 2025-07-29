@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button } from './Button'
+import { MUIButton } from '../component library/MUIButton'
 import './header.css'
 
 type User = {
@@ -52,12 +52,12 @@ export const Header = ({
             <span className="welcome">
               Welcome, <b>{user.name}</b>!
             </span>
-            <Button size="small" onClick={onLogout} label="Log out" />
+            <MUIButton size="small" onClick={onLogout} label="Log out" />
           </>
         ) : (
           <>
-            <Button size="small" onClick={onLogin} label="Log in" />
-            <Button
+            <MUIButton size="small" onClick={onLogin} label="Log in" />
+            <MUIButton
               primary
               size="small"
               onClick={onCreateAccount}
