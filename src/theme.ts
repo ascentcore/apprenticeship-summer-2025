@@ -4,10 +4,10 @@ export const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#646cff',
+      main: '#FF5151',
     },
     secondary: {
-      main: '#535bf2',
+      main: '#FF9B6A',
     },
     background: {
       default: '#242424',
@@ -82,10 +82,10 @@ export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#646cff',
+      main: '#FF5151',
     },
     secondary: {
-      main: '#747bff',
+      main: '#FF9B6A',
     },
     background: {
       default: '#ffffff',
@@ -98,7 +98,17 @@ export const lightTheme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        ...theme.components?.MuiCssBaseline?.styleOverrides,
+        body: {
+          margin: 0,
+          display: 'flex',
+          placeItems: 'center',
+          minWidth: '320px',
+          minHeight: '100vh',
+          fontSynthesis: 'none',
+          textRendering: 'optimizeLegibility',
+          WebkitFontSmoothing: 'antialiased',
+          MozOsxFontSmoothing: 'grayscale',
+        },
         a: {
           fontWeight: 500,
           color: '#646cff',
@@ -122,6 +132,14 @@ export const lightTheme = createTheme({
           },
           '&:focus, &:focus-visible': {
             outline: '4px auto -webkit-focus-ring-color',
+          },
+        },
+        '@keyframes logo-spin': {
+          from: {
+            transform: 'rotate(0deg)',
+          },
+          to: {
+            transform: 'rotate(360deg)',
           },
         },
       },

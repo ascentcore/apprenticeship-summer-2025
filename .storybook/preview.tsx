@@ -1,8 +1,8 @@
+import type { Preview } from '@storybook/react-vite'
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import { lightTheme } from '../src/theme'
-import * as React from 'react'
 
-const preview = {
+const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
@@ -13,13 +13,12 @@ const preview = {
     },
   },
   decorators: [
-    (Story) =>
-      React.createElement(
-        ThemeProvider,
-        { theme: lightTheme },
-        React.createElement(CssBaseline),
-        React.createElement(Story)
-      ),
+    (Story) => (
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        <Story />
+      </ThemeProvider>
+    ),
   ],
 }
 
