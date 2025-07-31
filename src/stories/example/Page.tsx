@@ -1,7 +1,7 @@
 import React from 'react'
+import { Box, Typography, Link, List, ListItem, Chip } from '@mui/material'
 
 import { Header } from './Header'
-import './page.css'
 
 type User = {
   name: string
@@ -11,7 +11,7 @@ export const Page: React.FC = () => {
   const [user, setUser] = React.useState<User>()
 
   return (
-    <article>
+    <Box component="article">
       <Header
         user={user}
         onLogin={() => setUser({ name: 'Jane Doe' })}
@@ -19,61 +19,122 @@ export const Page: React.FC = () => {
         onCreateAccount={() => setUser({ name: 'Jane Doe' })}
       />
 
-      <section className="storybook-page">
-        <h2>Pages in Storybook</h2>
-        <p>
+      <Box
+        component="section"
+        sx={{
+          margin: '0 auto',
+          padding: '48px 20px',
+          maxWidth: '600px',
+          color: '#333',
+          fontSize: '14px',
+          lineHeight: '24px',
+          fontFamily:
+            "'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+        }}
+      >
+        <Typography
+          variant="h2"
+          component="h2"
+          sx={{
+            display: 'inline-block',
+            verticalAlign: 'top',
+            margin: '0 0 4px',
+            fontWeight: 700,
+            fontSize: '32px',
+            lineHeight: 1,
+          }}
+        >
+          Pages in Storybook
+        </Typography>
+        <Typography variant="body1" sx={{ margin: '1em 0' }}>
           We recommend building UIs with a{' '}
-          <a
+          <Link
             href="https://componentdriven.org"
             target="_blank"
             rel="noopener noreferrer"
+            sx={{ color: 'inherit' }}
           >
             <strong>component-driven</strong>
-          </a>{' '}
+          </Link>{' '}
           process starting with atomic components and ending with pages.
-        </p>
-        <p>
+        </Typography>
+        <Typography variant="body1" sx={{ margin: '1em 0' }}>
           Render pages with mock data. This makes it easy to build and review
           page states without needing to navigate to them in your app. Here are
           some handy patterns for managing page data in Storybook:
-        </p>
-        <ul>
-          <li>
+        </Typography>
+        <List sx={{ margin: '1em 0', paddingLeft: '30px' }}>
+          <ListItem sx={{ marginBottom: '8px', display: 'list-item' }}>
             Use a higher-level connected component. Storybook helps you compose
             such data from the "args" of child component stories
-          </li>
-          <li>
+          </ListItem>
+          <ListItem sx={{ marginBottom: '8px', display: 'list-item' }}>
             Assemble data in the page component from your services. You can mock
             these services out using Storybook.
-          </li>
-        </ul>
-        <p>
+          </ListItem>
+        </List>
+        <Typography variant="body1" sx={{ margin: '1em 0' }}>
           Get a guided tutorial on component-driven development at{' '}
-          <a
+          <Link
             href="https://storybook.js.org/tutorials/"
             target="_blank"
             rel="noopener noreferrer"
+            sx={{ color: 'inherit' }}
           >
             Storybook tutorials
-          </a>
+          </Link>
           . Read more in the{' '}
-          <a
+          <Link
             href="https://storybook.js.org/docs"
             target="_blank"
             rel="noopener noreferrer"
+            sx={{ color: 'inherit' }}
           >
             docs
-          </a>
+          </Link>
           .
-        </p>
-        <div className="tip-wrapper">
-          <span className="tip">Tip</span> Adjust the width of the canvas with
-          the{' '}
+        </Typography>
+        <Box
+          sx={{
+            marginTop: '40px',
+            marginBottom: '40px',
+            fontSize: '13px',
+            lineHeight: '20px',
+          }}
+        >
+          <Chip
+            label="Tip"
+            size="small"
+            sx={{
+              display: 'inline-block',
+              verticalAlign: 'top',
+              marginRight: '10px',
+              borderRadius: '1em',
+              backgroundColor: '#e7fdd8',
+              color: '#357a14',
+              fontWeight: 700,
+              fontSize: '11px',
+              lineHeight: '12px',
+              height: 'auto',
+              '& .MuiChip-label': {
+                padding: '4px 12px',
+              },
+            }}
+          />
+          Adjust the width of the canvas with the{' '}
           <svg
             width="10"
             height="10"
             viewBox="0 0 12 12"
             xmlns="http://www.w3.org/2000/svg"
+            style={{
+              display: 'inline-block',
+              verticalAlign: 'top',
+              marginTop: '3px',
+              marginRight: '4px',
+              width: '12px',
+              height: '12px',
+            }}
           >
             <g fill="none" fillRule="evenodd">
               <path
@@ -84,8 +145,8 @@ export const Page: React.FC = () => {
             </g>
           </svg>
           Viewports addon in the toolbar
-        </div>
-      </section>
-    </article>
+        </Box>
+      </Box>
+    </Box>
   )
 }
