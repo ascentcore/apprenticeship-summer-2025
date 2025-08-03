@@ -67,3 +67,5 @@ export default tseslint.config([
   },
 ])
 ```
+
+//For steps to follow to make the program work, clone the repository, open it up in VS Code and run the dev, storybook and storybook-build react.js programs to build up the project (with npm run ...).
