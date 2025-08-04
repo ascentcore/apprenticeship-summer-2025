@@ -1,8 +1,7 @@
-# Summer Apprenticeship
+# React + TypeScript + Vite
 
-## Installation
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-<<<<<<< 8-git-fundamentals
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
@@ -68,10 +67,3 @@ export default tseslint.config([
   },
 ])
 ```
-
-//For steps to follow to make the program work, clone the repository, open it up in VS Code and run the dev, storybook and storybook-build react.js programs to build up the project (with npm run ...).
-=======
-1.
-2.
-3.
->>>>>>> main
