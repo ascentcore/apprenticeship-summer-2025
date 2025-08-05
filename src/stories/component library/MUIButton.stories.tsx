@@ -1,4 +1,3 @@
-// src/stories/MUIButton.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { MUIButton } from './MUIButton'
 import type { MUIButtonProps } from './MUIButton'
