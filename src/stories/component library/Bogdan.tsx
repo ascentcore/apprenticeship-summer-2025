@@ -1,9 +1,25 @@
-import React from 'react'
+import * as React from 'react'
+import { Box } from '@mui/material'
 
-interface NameProps {
+export interface nameProps {
   name: string
 }
 
-export const Bogdan: React.FC<NameProps> = ({ name }) => {
-  return <div>name</div>
-}
+export const Bogdan: React.FC<nameProps> = ({ name }) => (
+  <Box
+    sx={{
+      backgroundColor: 'primary.main',
+      color: 'white',
+      border: '2px solid #ff9800',
+      padding: '16px',
+      borderRadius: '8px',
+      transition: '0.3s ease',
+      textAlign: 'center',
+      '&:hover': {
+        backgroundColor: 'secondary.main',
+      },
+    }}
+  >
+    {name}
+  </Box>
+)
