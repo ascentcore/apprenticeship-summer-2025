@@ -1,20 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { AlexComponent } from './RaulComponent'
-import type { AlexComponentProps } from './RaulComponent'
+import { RaulComponent } from './RaulComponent'
+import type { RaulComponentProps } from './RaulComponent'
 
-const meta: Meta<AlexComponentProps> = {
+const meta: Meta<RaulComponentProps> = {
   title: 'Components/Alex Component',
-  component: AlexComponent,
+  component: RaulComponent,
   tags: ['autodocs'],
 }
 
 export default meta
 
-type Story = StoryObj<AlexComponentProps>
+type Story = StoryObj<RaulComponentProps>
 
 export const Default: Story = {
   args: {
-    name: 'Alex',
+    name: 'Raul',
   },
 }
 

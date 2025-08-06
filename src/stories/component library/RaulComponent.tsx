@@ -1,11 +1,11 @@
 import React from 'react'
 import { Box, useTheme } from '@mui/material'
 
-export type AlexComponentProps = {
+export type RaulComponentProps = {
   name: string
 }
 
-export const AlexComponent: React.FC<AlexComponentProps> = ({ name }) => {
+export const RaulComponent: React.FC<RaulComponentProps> = ({ name }) => {
   const theme = useTheme()
 
   return (
