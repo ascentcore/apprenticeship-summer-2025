@@ -3,7 +3,7 @@ import './Button.css'
 
 type ButtonProps = {
   variant?: 'primary' | 'secondary'
-  size?: 'medium' | 'large'
+  size?: 'medium' | 'normal' | 'big'
   disabled?: boolean
   children: React.ReactNode
   onClick?: () => void
@@ -11,7 +11,7 @@ type ButtonProps = {
 
 export const Button = ({
   variant = 'primary',
-  size = 'medium',
+  size = 'normal',
   disabled = false,
   children,
   onClick,
