@@ -5,6 +5,7 @@ import type { nameProps } from './Bogdan'
 const meta: Meta<nameProps> = {
   title: 'Components/Bogdan',
   component: Bogdan,
+  tags: ['autodocs'],
 }
 
 export default meta
