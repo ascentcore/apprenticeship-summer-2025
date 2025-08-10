@@ -1,9 +1,15 @@
 import React from 'react'
-import MuiCard from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import IconButton from '@mui/material/IconButton'
-import PushPinIcon from '@mui/icons-material/PushPin'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import {
+  Card as MuiCard,
+  CardContent,
+  IconButton,
+  Box,
+  Typography,
+} from '@mui/material'
+import {
+  PushPin as PushPinIcon,
+  MoreVert as MoreVertIcon,
+} from '@mui/icons-material'
 import type { SxProps, Theme } from '@mui/material/styles'
 
 type CardSize = 'small' | 'normal' | 'big'
@@ -13,70 +19,259 @@ interface CardProps {
   disabled?: boolean
   onPinClick?: () => void
   onMoreClick?: () => void
-  children?: React.ReactNode
+  primaryText: string
+  secondaryText?: string
 }
 
-const sizeStyles: Record<CardSize, SxProps<Theme>> = {
+const sizeStyles: Record<
+  CardSize,
+  {
+    width: number
+    height: number
+    paddingTop: number
+    paddingRight: number
+    paddingBottom: number
+    paddingLeft: number
+    primaryFontSize: number
+    secondaryFontSize: number
+    iconFontSize: number
+    borderRadius: number
+    borderWidth: number
+  }
+> = {
   small: {
-    width: 200,
-    padding: 1.5,
+    width: 310,
+    height: 64,
+    paddingTop: 1,
+    paddingRight: 1.5,
+    paddingBottom: 0.75,
+    paddingLeft: 1.5,
+    primaryFontSize: 14,
+    secondaryFontSize: 10,
+    iconFontSize: 14,
+    borderRadius: 0,
+    borderWidth: 0.5,
   },
   normal: {
-    width: 300,
-    padding: 2,
+    width: 387,
+    height: 64,
+    paddingTop: 1.25,
+    paddingRight: 2,
+    paddingBottom: 1.25,
+    paddingLeft: 2,
+    primaryFontSize: 16,
+    secondaryFontSize: 10,
+    iconFontSize: 16,
+    borderRadius: 0,
+    borderWidth: 0.5,
   },
   big: {
-    width: 400,
-    padding: 3,
+    width: 600,
+    height: 100,
+    paddingTop: 4,
+    paddingRight: 4,
+    paddingBottom: 4,
+    paddingLeft: 4,
+    primaryFontSize: 16,
+    secondaryFontSize: 10,
+    iconFontSize: 16,
+    borderRadius: 0,
+    borderWidth: 1,
   },
 }
 
-export const Card: React.FC<CardProps> = ({
+export const CustomCard: React.FC<CardProps> = ({
   size = 'normal',
   disabled = false,
   onPinClick,
   onMoreClick,
-  children,
+  primaryText,
+  secondaryText,
 }) => {
+  const {
+    width,
+    height,
+    paddingTop,
+    paddingRight,
+    paddingBottom,
+    paddingLeft,
+    primaryFontSize,
+    secondaryFontSize,
+    iconFontSize,
+    borderRadius,
+    borderWidth,
+  } = sizeStyles[size]
+
   const customStyles: SxProps<Theme> = {
     position: 'relative',
-    borderRadius: 3,
-    border: '2px solid #999',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+    width,
+    height,
+    borderRadius,
+    border: `${borderWidth}px solid #D1D1D1`,
+    boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
     backgroundColor: disabled ? '#f5f5f5' : '#ffffff',
     color: disabled ? '#aaa' : '#000',
     pointerEvents: disabled ? 'none' : 'auto',
     opacity: disabled ? 0.6 : 1,
-    ...sizeStyles[size],
+    pt: paddingTop,
+    pr: paddingRight,
+    pb: paddingBottom,
+    pl: paddingLeft,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   }
 
   return (
     <MuiCard sx={customStyles}>
-      <div
-        style={{
-          position: 'absolute',
-          top: 8,
-          right: 8,
+      <CardContent
+        sx={{
+          flexGrow: 1,
+          px: 1.5,
+          pt: size === 'small' ? 0.5 : 1.5,
+          pb: 0,
           display: 'flex',
-          gap: 4,
+          flexDirection: 'column',
+          justifyContent: size === 'small' ? 'center' : 'flex-start',
+          position: 'relative',
         }}
       >
-        <IconButton
-          size="small"
-          onClick={onPinClick}
-          disabled={disabled || !onPinClick}
-        >
-          <PushPinIcon fontSize="small" />
-        </IconButton>
-        <IconButton
-          size="small"
-          onClick={onMoreClick}
-          disabled={disabled || !onMoreClick}
-        >
-          <MoreVertIcon fontSize="small" />
-        </IconButton>
-      </div>
-      <CardContent sx={{ paddingTop: 4 }}>{children}</CardContent>
+        {size === 'small' ? (
+          <>
+            <Box sx={{ pr: 0 }}>
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                  fontSize: primaryFontSize,
+                  lineHeight: 1.2,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  mb: secondaryText ? 0.5 : 0,
+                }}
+              >
+                {primaryText}
+              </Typography>
+            </Box>
+            {secondaryText && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 1,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    fontSize: secondaryFontSize,
+                    lineHeight: 1.2,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    flex: 1,
+                  }}
+                >
+                  {secondaryText}
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 0.5 }}>
+                  <IconButton
+                    size="small"
+                    onClick={onPinClick}
+                    disabled={disabled || !onPinClick}
+                    sx={{ fontSize: iconFontSize }}
+                  >
+                    <PushPinIcon sx={{ fontSize: iconFontSize }} />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    onClick={onMoreClick}
+                    disabled={disabled || !onMoreClick}
+                    sx={{ fontSize: iconFontSize }}
+                  >
+                    <MoreVertIcon sx={{ fontSize: iconFontSize }} />
+                  </IconButton>
+                </Box>
+              </Box>
+            )}
+          </>
+        ) : (
+          <>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: paddingLeft * 8,
+                right: 48,
+                transform: 'translateY(-50%)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+              }}
+            >
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                  fontSize: primaryFontSize,
+                  lineHeight: 1.2,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  marginBottom: 0.5,
+                }}
+              >
+                {primaryText}
+              </Typography>
+              {secondaryText && (
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    fontSize: secondaryFontSize,
+                    lineHeight: 1.2,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {secondaryText}
+                </Typography>
+              )}
+            </Box>
+
+            <Box
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                display: 'flex',
+                gap: 0.5,
+              }}
+            >
+              <IconButton
+                size="small"
+                onClick={onPinClick}
+                disabled={disabled || !onPinClick}
+                sx={{ fontSize: iconFontSize }}
+              >
+                <PushPinIcon sx={{ fontSize: iconFontSize }} />
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={onMoreClick}
+                disabled={disabled || !onMoreClick}
+                sx={{ fontSize: iconFontSize }}
+              >
+                <MoreVertIcon sx={{ fontSize: iconFontSize }} />
+              </IconButton>
+            </Box>
+          </>
+        )}
+      </CardContent>
     </MuiCard>
   )
 }

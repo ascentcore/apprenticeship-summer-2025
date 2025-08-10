@@ -1,48 +1,54 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Card } from './Card'
+import { CustomCard } from './Card'
 
-const meta: Meta<typeof Card> = {
-  title: 'Custom/Card',
-  component: Card,
+const meta: Meta<typeof CustomCard> = {
+  title: 'Components/Card',
+  component: CustomCard,
   tags: ['autodocs'],
 }
 
 export default meta
 
-type Story = StoryObj<typeof Card>
+type Story = StoryObj<typeof CustomCard>
 
 export const Normal: Story = {
   args: {
     size: 'normal',
-    children: 'This is a normal card.',
+    primaryText: 'This is a noSarmal card.',
+    secondaryText: 'saSasaSaaSAdditional asainfo goes here.',
   },
 }
 
 export const Small: Story = {
   args: {
     size: 'small',
-    children: 'This is a small card.',
+    primaryText: 'This is a small card.dasdsadas',
+    secondaryText: 'Compact view',
   },
 }
 
 export const Big: Story = {
   args: {
     size: 'big',
-    children: 'This is a big card.',
+    primaryText: 'This is a big card.',
+    secondaryText: 'Extra detail can be shown here.',
   },
 }
 
 export const Disabled: Story = {
   args: {
     disabled: true,
-    children: 'This card is disabled.',
+    size: 'normal',
+    primaryText: 'This card is disabled.',
+    secondaryText: 'Unavailable right now.',
   },
 }
 
 export const WithActions: Story = {
   args: {
     size: 'normal',
-    children: 'Click the pin or more icon.',
+    primaryText: 'Click the pin or more icon.',
+    secondaryText: 'These trigger alert handlers.',
     onPinClick: () => alert('Pin clicked!'),
     onMoreClick: () => alert('More clicked!'),
   },
