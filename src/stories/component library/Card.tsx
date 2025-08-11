@@ -67,16 +67,16 @@ const sizeStyles: Record<
   },
   big: {
     width: 600,
-    height: 100,
-    paddingTop: 4,
-    paddingRight: 4,
-    paddingBottom: 4,
-    paddingLeft: 4,
+    height: 68,
+    paddingTop: 1.5,
+    paddingRight: 2,
+    paddingBottom: 1.5,
+    paddingLeft: 2,
     primaryFontSize: 16,
     secondaryFontSize: 10,
     iconFontSize: 16,
     borderRadius: 0,
-    borderWidth: 1,
+    borderWidth: 0.5,
   },
 }
 
