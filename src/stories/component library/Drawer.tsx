@@ -37,7 +37,6 @@ export const Drawer: React.FC<DrawerProps> = ({
           overflow: 'auto',
           bgcolor: 'background.paper',
         }}
-        role="presentation"
       >
         {children}
       </Box>
