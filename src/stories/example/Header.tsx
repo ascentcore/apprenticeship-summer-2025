@@ -1,7 +1,4 @@
-import React from 'react'
 import { Box, Typography, Stack } from '@mui/material'
-
-import { MUIButton } from '../component library/MUIButton'
 
 type User = {
   name: string
@@ -14,12 +11,7 @@ export interface HeaderProps {
   onCreateAccount?: () => void
 }
 
-export const Header = ({
-  user,
-  onLogin,
-  onLogout,
-  onCreateAccount,
-}: HeaderProps) => (
+export const Header = ({ user, onLogin }: HeaderProps) => (
   <Box
     component="header"
     sx={{
@@ -83,17 +75,10 @@ export const Header = ({
           >
             Welcome, <strong>{user.name}</strong>!
           </Typography>
-          <MUIButton size="small" onClick={onLogout} label="Log out" />
         </>
       ) : (
         <>
-          <MUIButton size="small" onClick={onLogin} label="Log in" />
-          <MUIButton
-            variant="contained"
-            size="small"
-            onClick={onCreateAccount}
-            label="Sign up"
-          />
+          <button onClick={onLogin}>Log In</button>
         </>
       )}
     </Stack>
