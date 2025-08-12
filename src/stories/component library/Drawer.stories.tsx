@@ -1,22 +1,26 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { Drawer } from './Drawer'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
+import {
+  Box,
+  Button,
+  Typography,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material'
 
-import DashboardIcon from '@mui/icons-material/Dashboard'
-import WorkIcon from '@mui/icons-material/Work'
-import ScheduleIcon from '@mui/icons-material/Schedule'
-import PeopleIcon from '@mui/icons-material/People'
-import ApartmentIcon from '@mui/icons-material/Apartment'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import SettingsIcon from '@mui/icons-material/Settings'
+import {
+  Dashboard as DashboardIcon,
+  Work as WorkIcon,
+  Schedule as ScheduleIcon,
+  People as PeopleIcon,
+  Apartment as ApartmentIcon,
+  HelpOutline as HelpOutlineIcon,
+  Settings as SettingsIcon,
+} from '@mui/icons-material'
 
 const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',
