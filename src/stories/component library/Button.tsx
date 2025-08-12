@@ -43,8 +43,10 @@ export const CustomButton: React.FC<ButtonProps> = ({
     ...(variant === 'secondary' && {
       borderColor: theme.palette.secondary.main,
       color: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.light,
+
       '&:hover': {
-        backgroundColor: theme.palette.action.hover,
+        backgroundColor: theme.palette.text.primary,
         borderColor: theme.palette.secondary.dark,
       },
     }),
@@ -66,12 +68,13 @@ export const CustomButton: React.FC<ButtonProps> = ({
       opacity: 1,
       cursor: 'not-allowed',
       ...(variant === 'primary' && {
-        backgroundColor: '#FFB3B3', // roz deschis
-        color: '#fff', // text alb
+        backgroundColor: theme.palette.primary.main,
+        opacity: 0.8,
+        color: '#fff',
       }),
       ...(variant === 'secondary' && {
-        borderColor: '#FFCCB3', // roz pal
-        color: '#FFCCB3', // text roz pal
+        borderColor: theme.palette.secondary.main,
+        color: theme.palette.secondary.main,
         backgroundColor: 'transparent',
       }),
     },
