@@ -6,6 +6,7 @@ import {
   Typography,
   Tooltip,
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 
 type PresetColor = 'normal' | 'urgent' | 'custom1'
 
@@ -20,12 +21,6 @@ interface StatisticCardProps {
   tooltip?: string
 }
 
-const presetColors: Record<PresetColor, { bg: string; subtitle: string }> = {
-  normal: { bg: '#E8F2FF', subtitle: '#2E7CF6' },
-  urgent: { bg: '#FFF1E9', subtitle: '#FF4D4D' },
-  custom1: { bg: '#FFEAF6', subtitle: '#FF4AB8' },
-}
-
 const StatisticCard: React.FC<StatisticCardProps> = ({
   title,
   value,
@@ -36,18 +31,24 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
   onClick,
   tooltip,
 }) => {
-  const backgroundColor = customColor || presetColors[color].bg
-  const subtitleTextColor = subtitleColor || presetColors[color].subtitle
+  const theme = useTheme()
+
+  const backgroundColor = customColor || theme.palette.statisticCard[color].bg
+  const subtitleTextColor =
+    subtitleColor || theme.palette.statisticCard[color].subtitle
 
   const cardContent = (
     <CardContent>
       <Typography
         variant="subtitle1"
-        sx={{ color: '#0B0B3B', fontWeight: 600 }}
+        sx={{ color: theme.palette.statisticCard.title, fontWeight: 600 }}
       >
         {title}
       </Typography>
-      <Typography variant="h4" sx={{ color: '#0B0B3B', fontWeight: 700 }}>
+      <Typography
+        variant="h4"
+        sx={{ color: theme.palette.statisticCard.title, fontWeight: 700 }}
+      >
         {value}
       </Typography>
       {subtitle && (

@@ -1,40 +1,58 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import StatisticCard from './StatisticCard'
+import { ThemeProvider } from '@mui/material/styles'
+import { statisticCardTheme } from '../../theme'
 
 const meta: Meta<typeof StatisticCard> = {
   title: 'Components/StatisticCard',
   component: StatisticCard,
+  decorators: [
+    (Story) => (
+      <ThemeProvider theme={statisticCardTheme}>
+        <Story />
+      </ThemeProvider>
+    ),
+  ],
 }
 export default meta
 
 type Story = StoryObj<typeof StatisticCard>
 
-export const Urgent: Story = {
-  args: {
-    title: 'Available Position',
-    value: 24,
-    subtitle: '4 Urgently needed',
-    color: 'urgent',
-    tooltip: 'This is urgent',
-  },
+export const AvailablePosition: Story = {
+  render: () => (
+    <StatisticCard
+      title="Available Position"
+      value={24}
+      subtitle="4 Urgently needed"
+      color="urgent"
+      tooltip="Click to view available positions"
+      onClick={() => alert('Available Position clicked!')}
+    />
+  ),
 }
 
-export const Normal: Story = {
-  args: {
-    title: 'Job Open',
-    value: 10,
-    subtitle: '4 Active hiring',
-    color: 'normal',
-    tooltip: 'This is a normal stat',
-  },
+export const JobOpen: Story = {
+  render: () => (
+    <StatisticCard
+      title="Job Open"
+      value={10}
+      subtitle="4 Active hiring"
+      color="normal"
+      tooltip="Click to view job openings"
+      onClick={() => alert('Job Open clicked!')}
+    />
+  ),
 }
 
-export const CustomPink: Story = {
-  args: {
-    title: 'New Employees',
-    value: 24,
-    subtitle: '4 Department',
-    color: 'custom1',
-    tooltip: 'Custom pink card',
-  },
+export const NewEmployees: Story = {
+  render: () => (
+    <StatisticCard
+      title="New Employees"
+      value={24}
+      subtitle="4 Department"
+      color="custom1"
+      tooltip="Click to view new employees"
+      onClick={() => alert('New Employees clicked!')}
+    />
+  ),
 }
