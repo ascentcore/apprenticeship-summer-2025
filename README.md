@@ -1,3 +1,4 @@
+
 # Read Me
 
 ## Installation
@@ -6,3 +7,4 @@
 2. Install the packages: `npm install`
 3. Run the React.js files: `npm start`
 4. Install the Prettier extension (optional)
+
