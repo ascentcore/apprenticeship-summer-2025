@@ -10,7 +10,7 @@ const sampleChartData = {
     {
       data: [12, 19, 15, 17, 22, 18, 25],
       borderColor: '#FF5151',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: '#FF5151',
       tension: 0.4,
     },
   ],

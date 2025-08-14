@@ -1,17 +1,16 @@
 import { createTheme } from '@mui/material/styles'
-
 export const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#FF5151',
+      main: '#ff8383ff',
     },
     secondary: {
       main: '#FF9B6A',
     },
     background: {
-      default: '#242424',
-      paper: '#1a1a1a',
+      default: '#ffe3c5ff',
+      paper: '#ffffffff',
     },
     text: {
       primary: 'rgba(255, 255, 255, 0.87)',
@@ -75,7 +74,6 @@ export const theme = createTheme({
     },
   },
 })
-
 // Light mode theme variant
 export const lightTheme = createTheme({
   ...theme,
@@ -85,14 +83,17 @@ export const lightTheme = createTheme({
       main: '#FF5151',
     },
     secondary: {
-      main: '#FF9B6A',
+      main: '#ff907aff',
+      light: '#fff1eaff',
+      dark: '#000000',
     },
     background: {
       default: '#ffffff',
       paper: '#f9f9f9',
     },
     text: {
-      primary: '#213547',
+      primary: '#686868',
+      secondary: '#161E54',
     },
   },
   components: {
