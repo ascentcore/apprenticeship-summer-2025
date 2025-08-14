@@ -7,6 +7,7 @@ import { Box } from '@mui/material'
 const meta: Meta<typeof StatisticCard> = {
   title: 'Components/Statistic Card',
   component: StatisticCard,
+  tags: ['autodocs'],
   decorators: [
     (Story) => (
       <ThemeProvider theme={statisticCardTheme}>
