@@ -23,15 +23,23 @@ interface CardProps {
   secondaryText?: string
 }
 
+const reusableStyles = {
+  px: 1.5,
+  py: 2,
+  primaryFontSize: 16,
+  secondaryFontSize: 10,
+  iconFontSize: 16,
+  borderRadius: 0,
+  borderWidth: 0.5,
+}
+
 const sizeStyles: Record<
   CardSize,
   {
-    width: number
-    height: number
-    paddingTop: number
-    paddingRight: number
-    paddingBottom: number
-    paddingLeft: number
+    width?: number
+    height: 64
+    px: number
+    py: number
     primaryFontSize: number
     secondaryFontSize: number
     iconFontSize: number
@@ -40,43 +48,21 @@ const sizeStyles: Record<
   }
 > = {
   small: {
-    width: 310,
+    width: 196,
     height: 64,
-    paddingTop: 1,
-    paddingRight: 1.5,
-    paddingBottom: 0.75,
-    paddingLeft: 1.5,
+    ...reusableStyles,
     primaryFontSize: 14,
-    secondaryFontSize: 10,
     iconFontSize: 14,
-    borderRadius: 0,
-    borderWidth: 0.5,
   },
   normal: {
     width: 387,
     height: 64,
-    paddingTop: 1.25,
-    paddingRight: 2,
-    paddingBottom: 1.25,
-    paddingLeft: 2,
-    primaryFontSize: 16,
-    secondaryFontSize: 10,
-    iconFontSize: 16,
-    borderRadius: 0,
-    borderWidth: 0.5,
+    ...reusableStyles,
   },
   big: {
     width: 600,
-    height: 68,
-    paddingTop: 1.5,
-    paddingRight: 2,
-    paddingBottom: 1.5,
-    paddingLeft: 2,
-    primaryFontSize: 16,
-    secondaryFontSize: 10,
-    iconFontSize: 16,
-    borderRadius: 0,
-    borderWidth: 0.5,
+    height: 64,
+    ...reusableStyles,
   },
 }
 
@@ -91,10 +77,8 @@ export const CustomCard: React.FC<CardProps> = ({
   const {
     width,
     height,
-    paddingTop,
-    paddingRight,
-    paddingBottom,
-    paddingLeft,
+    px,
+    py,
     primaryFontSize,
     secondaryFontSize,
     iconFontSize,
@@ -113,10 +97,8 @@ export const CustomCard: React.FC<CardProps> = ({
     color: disabled ? '#aaa' : '#000',
     pointerEvents: disabled ? 'none' : 'auto',
     opacity: disabled ? 0.6 : 1,
-    pt: paddingTop,
-    pr: paddingRight,
-    pb: paddingBottom,
-    pl: paddingLeft,
+    px: px,
+    py: py,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -128,7 +110,7 @@ export const CustomCard: React.FC<CardProps> = ({
         sx={{
           flexGrow: 1,
           px: 1.5,
-          pt: size === 'small' ? 0.5 : 1.5,
+          pt: size === 'small' ? 0 : 1.5,
           pb: 0,
           display: 'flex',
           flexDirection: 'column',
@@ -143,7 +125,7 @@ export const CustomCard: React.FC<CardProps> = ({
                 sx={{
                   fontWeight: 600,
                   fontSize: primaryFontSize,
-                  lineHeight: 1.2,
+                  lineHeight: 1,
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
@@ -203,7 +185,7 @@ export const CustomCard: React.FC<CardProps> = ({
               sx={{
                 position: 'absolute',
                 top: '50%',
-                left: paddingLeft * 8,
+                left: px * 8,
                 right: 48,
                 transform: 'translateY(-50%)',
                 display: 'flex',

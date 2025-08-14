@@ -55,14 +55,18 @@ export const Default: Story = {
       <Box sx={{ p: 2, width: 250 }}>
         <Typography
           variant="h3"
-          sx={{ textAlign: 'center', fontWeight: 'bold' }}
+          sx={{
+            color: 'secondary.dark',
+            textAlign: 'center',
+            fontWeight: 'bold',
+          }}
         >
           WeHR
         </Typography>
 
         <Typography
           variant="body2"
-          sx={{ color: 'text.secondary', fontSize: '0.75rem', mb: 1 }}
+          sx={{ color: 'text.primary', fontSize: '0.75rem', mb: 1 }}
         >
           MAIN MENU
         </Typography>
@@ -93,7 +97,7 @@ export const Default: Story = {
         <Typography
           variant="body2"
           sx={{
-            color: 'text.secondary',
+            color: 'text.primary',
             fontSize: '0.75rem',
             mt: 2,
             mb: 1,
@@ -145,7 +149,6 @@ export const Default: Story = {
         </Button>
         <Button
           variant="contained"
-          color="secondary"
           onClick={() => setOpenRight(true)}
           sx={{ mb: 2 }}
         >
