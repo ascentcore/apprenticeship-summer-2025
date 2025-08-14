@@ -86,13 +86,15 @@ export const lightTheme = createTheme({
     secondary: {
       main: '#ff907aff',
       light: '#fff1eaff',
+      dark: '#000000',
     },
     background: {
       default: '#ffffff',
       paper: '#f9f9f9',
     },
     text: {
-      primary: '#ffd8c5ff',
+      primary: '#686868',
+      secondary: '#161E54',
     },
   },
   components: {
