@@ -5,7 +5,7 @@ import { statisticCardTheme } from '../../theme'
 import { Box } from '@mui/material'
 
 const meta: Meta<typeof StatisticCard> = {
-  title: 'Components/StatisticCard',
+  title: 'Components/Statistic Card',
   component: StatisticCard,
   decorators: [
     (Story) => (
