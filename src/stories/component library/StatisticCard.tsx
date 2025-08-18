@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import NumberHandler from './NumberHandler'
 
 type PresetColor = 'normal' | 'urgent' | 'custom1'
 
@@ -17,8 +18,11 @@ interface StatisticCardProps {
   color?: PresetColor
   customColor?: string
   subtitleColor?: string
+  backgroundImage?: string
   onClick?: () => void
   tooltip?: string
+  titleColor?: string
+  invertTitle?: boolean
 }
 
 const StatisticCard: React.FC<StatisticCardProps> = ({
@@ -28,32 +32,58 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
   color = 'normal',
   customColor,
   subtitleColor,
+  backgroundImage,
   onClick,
   tooltip,
+  titleColor,
+  invertTitle,
 }) => {
   const theme = useTheme()
 
   const backgroundColor = customColor || theme.palette.statisticCard[color].bg
+
   const subtitleTextColor =
-    subtitleColor || theme.palette.statisticCard[color].subtitle
+    subtitleColor ||
+    (theme.palette.statisticCard[color].subtitle
+      ? theme.palette.statisticCard[color].subtitle
+      : '#003585')
+
+  const titleTextColor = titleColor
+    ? titleColor
+    : invertTitle
+      ? '#fff'
+      : theme.palette.statisticCard.title
 
   const cardContent = (
-    <CardContent>
+    <CardContent sx={{ position: 'relative', zIndex: 2 }}>
       <Typography
         variant="subtitle1"
-        sx={{ color: theme.palette.statisticCard.title, fontWeight: 600 }}
+        component="h2"
+        sx={{
+          color: titleTextColor,
+          fontWeight: 600,
+          textShadow: invertTitle ? '1px 1px 3px rgba(0,0,0,0.7)' : 'none',
+        }}
       >
         {title}
       </Typography>
+
       <Typography
         variant="h4"
-        sx={{ color: theme.palette.statisticCard.title, fontWeight: 700 }}
+        component="h3"
+        sx={{
+          color: titleTextColor,
+          fontWeight: 700,
+          textShadow: invertTitle ? '1px 1px 3px rgba(0,0,0,0.7)' : 'none',
+        }}
       >
-        {value}
+        <NumberHandler value={value} />
       </Typography>
+
       {subtitle && (
         <Typography
           variant="subtitle2"
+          component="p"
           sx={{ color: subtitleTextColor, fontWeight: 500 }}
         >
           {subtitle}
@@ -66,24 +96,30 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
     <Tooltip title={tooltip || ''} arrow>
       <Card
         sx={{
-          backgroundColor,
-          minWidth: 200,
+          position: 'relative',
+          overflow: 'hidden',
+          backgroundColor: backgroundImage ? 'transparent' : backgroundColor,
+          backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          minWidth: 'fit-content',
           borderRadius: 3,
+          display: 'inline-block',
+          '&:hover::after': backgroundImage
+            ? {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0,0,0,0.25)',
+                zIndex: 1,
+              }
+            : {},
         }}
       >
-        {onClick ? (
-          <CardActionArea
-            onClick={onClick}
-            sx={{
-              '&:focus': { outline: 'none' },
-              '&:focus-visible': { outline: 'none', boxShadow: 'none' },
-            }}
-          >
-            {cardContent}
-          </CardActionArea>
-        ) : (
-          cardContent
-        )}
+        {onClick ? <CardActionArea>{cardContent}</CardActionArea> : cardContent}
       </Card>
     </Tooltip>
   )
