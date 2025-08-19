@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles'
+ 41-REMADE-textfield
 
 export const colors = {
   text: '#000000',
@@ -7,7 +8,7 @@ export const colors = {
   borderError: '#ff0000',
   orangeLight: '#fd8941ff',
 }
-
+      main
 export const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -83,7 +84,6 @@ export const theme = createTheme({
     },
   },
 })
-
 export const lightTheme = createTheme({
   ...theme,
   palette: {
