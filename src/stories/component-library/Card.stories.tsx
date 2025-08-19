@@ -14,7 +14,7 @@ type Story = StoryObj<typeof CustomCard>
 export const Normal: Story = {
   args: {
     size: 'normal',
-    primaryText: 'This is a noarmal card.',
+    primaryText: 'This is a normal card.',
     secondaryText: 'Additional info goes here.',
   },
 }
