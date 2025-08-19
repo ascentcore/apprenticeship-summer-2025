@@ -4,6 +4,7 @@ import { CustomButton } from './Button'
 const meta: Meta<typeof CustomButton> = {
   title: 'Components/Button',
   component: CustomButton,
+  tags: ['autodocs'],
 }
 
 export default meta

@@ -76,7 +76,6 @@ export const theme = createTheme({
   },
 })
 
-// Light mode theme variant
 export const lightTheme = createTheme({
   ...theme,
   palette: {
@@ -87,13 +86,15 @@ export const lightTheme = createTheme({
     secondary: {
       main: '#ff907aff',
       light: '#fff1eaff',
+      dark: '#000000',
     },
     background: {
       default: '#ffffff',
       paper: '#f9f9f9',
     },
     text: {
-      primary: '#ffd8c5ff',
+      primary: '#686868',
+      secondary: '#161E54',
     },
   },
   components: {
@@ -141,6 +142,65 @@ export const lightTheme = createTheme({
           },
           to: {
             transform: 'rotate(360deg)',
+          },
+        },
+      },
+    },
+  },
+})
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    statisticCard: {
+      normal: { bg: string; subtitle: string }
+      urgent: { bg: string; subtitle: string }
+      custom1: { bg: string; subtitle: string }
+      title: string
+    }
+  }
+  interface PaletteOptions {
+    statisticCard?: {
+      normal: { bg: string; subtitle: string }
+      urgent: { bg: string; subtitle: string }
+      custom1: { bg: string; subtitle: string }
+      title: string
+    }
+  }
+}
+
+export const statisticCardTheme = createTheme({
+  palette: {
+    statisticCard: {
+      normal: { bg: '#E8F2FF', subtitle: '#2E7CF6' },
+      urgent: { bg: '#FFF1E9', subtitle: '#FF4D4D' },
+      custom1: { bg: '#FFEAF6', subtitle: '#FF4AB8' },
+      title: '#0B0B3B',
+    },
+  },
+})
+
+export const deleteBlueOutline = createTheme({
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        '*:focus': {
+          outline: 'none !important',
+        },
+        '*:focus-visible': {
+          outline: 'none !important',
+          boxShadow: 'none !important',
+        },
+      },
+    },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          '&:focus': {
+            outline: 'none',
+          },
+          '&:focus-visible': {
+            outline: 'none',
+            boxShadow: 'none',
           },
         },
       },
