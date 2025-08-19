@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import StatisticCard from './StatisticCard'
+import StatisticCard from '../components/StatisticCard'
 import { ThemeProvider } from '@mui/material/styles'
-import { statisticCardTheme } from '../../theme'
+import { statisticCardTheme } from '../theme'
 import { Box } from '@mui/material'
 
 const meta: Meta<typeof StatisticCard> = {

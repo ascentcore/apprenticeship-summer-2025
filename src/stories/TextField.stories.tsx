@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import TextField from './TextField'
+import TextField from '../components/TextField'
 import { User, Search } from 'lucide-react'
 
 const meta: Meta<typeof TextField> = {

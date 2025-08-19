@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
-import { Drawer } from './Drawer'
+import { Drawer } from '../components/Drawer'
 import {
   Box,
   Button,

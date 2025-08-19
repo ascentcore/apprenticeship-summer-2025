@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import GraphCard from './GraphCard'
+import GraphCard from '../components/GraphCard'
 
 const meta: Meta<typeof GraphCard> = {
   title: 'Components/GraphCard',
