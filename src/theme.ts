@@ -1,5 +1,13 @@
 import { createTheme } from '@mui/material/styles'
 
+export const colors = {
+  text: '#000000',
+  background: '#ffffff',
+  border: '#000000',
+  borderError: '#ff0000',
+  orangeLight: '#fd8941ff',
+}
+
 export const theme = createTheme({
   palette: {
     mode: 'dark',

@@ -5,6 +5,7 @@ import {
   IconButton,
 } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { useTheme } from '@mui/material/styles'
 
 interface TextFieldProps {
   label?: string
@@ -35,99 +36,98 @@ const TextField = ({
 }: TextFieldProps) => {
   const [showPassword, setShowPassword] = useState(false)
   const [focused, setFocused] = useState(false)
+  const theme = useTheme()
 
   const height = variant === 'compact' ? 36 : 48
-  const textColor = '#000000' // negru pur
-  const backgroundColor = '#ffffff' // alb pur
-  const borderColorDefault = '#000000'
-  const orangeLight = '#fd8941ff'
   const isPassword = type === 'password'
 
   return (
-    <div style={{ backgroundColor, padding: '4px', display: 'inline-block' }}>
-      <TextFieldMui
-        label={label}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        disabled={disabled}
-        type={isPassword && !showPassword ? 'password' : 'text'}
-        error={error}
-        helperText={error ? errorMessage : ''}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        InputProps={{
-          startAdornment: startIcon ? (
-            <InputAdornment position="start">{startIcon}</InputAdornment>
-          ) : undefined,
-          endAdornment: isPassword ? (
-            <InputAdornment position="end">
-              <IconButton
-                onClick={() => setShowPassword(!showPassword)}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ) : endIcon ? (
-            <InputAdornment position="end">{endIcon}</InputAdornment>
-          ) : undefined,
-          sx: {
-            backgroundColor,
-            boxSizing: 'border-box',
+    <TextFieldMui
+      label={label}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      disabled={disabled}
+      type={isPassword && !showPassword ? 'password' : 'text'}
+      error={error}
+      helperText={error ? errorMessage : ''}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      InputProps={{
+        startAdornment: startIcon ? (
+          <InputAdornment position="start">{startIcon}</InputAdornment>
+        ) : undefined,
+        endAdornment: isPassword ? (
+          <InputAdornment position="end">
+            <IconButton
+              onClick={() => setShowPassword(!showPassword)}
+              edge="end"
+            >
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        ) : endIcon ? (
+          <InputAdornment position="end">{endIcon}</InputAdornment>
+        ) : undefined,
+        sx: {
+          backgroundColor: 'transparent',
+          boxSizing: 'border-box',
+        },
+      }}
+      InputLabelProps={{
+        shrink: true,
+        sx: {
+          color: theme.palette.text.primary,
+          px: 0.5,
+          zIndex: 1,
+          lineHeight: 1.2,
+          backgroundColor: 'transparent',
+          display: 'inline-block',
+          width: 'auto',
+        },
+      }}
+      sx={{
+        width: '100%',
+        '& .MuiOutlinedInput-root': {
+          backgroundColor: 'transparent',
+          minHeight: height,
+          borderRadius: theme.shape.borderRadius,
+          '& fieldset': {
+            borderColor: error
+              ? theme.palette.error.main
+              : focused
+                ? theme.palette.primary.main
+                : theme.palette.divider,
           },
-        }}
-        InputLabelProps={{
-          shrink: true,
-          sx: {
-            color: textColor,
-            px: 0.5, // padding stânga-dreapta pentru efect decupat
-            zIndex: 1, // ca să stea deasupra border-ului
-            lineHeight: 1.2,
-            backgroundColor, // alb, dar aplicat doar sub text
-            display: 'inline-block',
-            width: 'auto',
+          '&:hover fieldset': {
+            borderColor: focused
+              ? theme.palette.primary.dark
+              : theme.palette.text.primary,
           },
-        }}
-        sx={{
-          width: '100%',
-          '& .MuiOutlinedInput-root': {
-            backgroundColor,
-            minHeight: height,
-            borderRadius: 1,
-            '& fieldset': {
-              borderColor: error
-                ? '#ff0000'
-                : focused
-                  ? orangeLight
-                  : borderColorDefault,
-            },
-            '&:hover fieldset': {
-              borderColor: focused ? orangeLight : borderColorDefault,
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: orangeLight,
-              borderWidth: 2,
-            },
+          '&.Mui-focused fieldset': {
+            borderColor: theme.palette.primary.main,
+            borderWidth: 2,
           },
-          '& .MuiInputBase-input': {
-            color: textColor,
-            height: height,
-            padding: '0 12px',
-            fontSize: '1rem',
-            boxSizing: 'border-box',
-            backgroundColor,
-            '&::placeholder': {
-              color: textColor,
-              opacity: 1,
-            },
+        },
+        '& .MuiInputBase-input': {
+          color: theme.palette.text.primary,
+          height: height,
+          padding: `0 ${theme.spacing(1.5)}`,
+          fontSize: theme.typography.pxToRem(14),
+          boxSizing: 'border-box',
+          backgroundColor: 'transparent',
+          '&::placeholder': {
+            color: theme.palette.text.secondary,
+            opacity: 1,
           },
-          '& .MuiFormHelperText-root': {
-            color: error ? '#ff0000' : textColor,
-          },
-        }}
-      />
-    </div>
+        },
+        '& .MuiFormHelperText-root': {
+          color: error
+            ? theme.palette.error.main
+            : theme.palette.text.secondary,
+        },
+      }}
+    />
   )
 }
 
