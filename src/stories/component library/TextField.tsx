@@ -1,84 +1,61 @@
-import TextFieldMui from '@mui/material/TextField'
-import InputAdornment from '@mui/material/InputAdornment'
-import IconButton from '@mui/material/IconButton'
-import MenuItem from '@mui/material/MenuItem'
-import type { FC, ChangeEvent, ReactNode } from 'react'
 import { useState } from 'react'
+import {
+  TextField as TextFieldMui,
+  InputAdornment,
+  IconButton,
+} from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 interface TextFieldProps {
   label?: string
   value: string
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   placeholder?: string
-  disabled?: boolean
+  type?: 'text' | 'password' | 'number'
   error?: boolean
   errorMessage?: string
-  type?: string
-  suggestions?: string[]
-  startIcon?: ReactNode
-  endIcon?: ReactNode
+  disabled?: boolean
+  startIcon?: React.ReactNode
+  endIcon?: React.ReactNode
   variant?: 'normal' | 'compact'
-  selected?: boolean
 }
 
-const grayColor = '#1f2937' // dark gray
-
-const TextField: FC<TextFieldProps> = ({
+const TextField = ({
   label,
   value,
   onChange,
   placeholder,
-  disabled = false,
-  error = false,
-  errorMessage = '',
   type = 'text',
-  suggestions = [],
+  error = false,
+  errorMessage,
+  disabled = false,
   startIcon,
   endIcon,
   variant = 'normal',
-  selected = false,
-}) => {
+}: TextFieldProps) => {
   const [showPassword, setShowPassword] = useState(false)
   const [focused, setFocused] = useState(false)
+
+  const height = variant === 'compact' ? 36 : 48
+  const textColor = '#000000' // negru pur
+  const backgroundColor = '#ffffff' // alb pur
+  const borderColorDefault = '#000000'
+  const orangeLight = '#fd8941ff'
   const isPassword = type === 'password'
 
-  const padding = variant === 'compact' ? '8px' : '16px'
-
   return (
-    <>
+    <div style={{ backgroundColor, padding: '4px', display: 'inline-block' }}>
       <TextFieldMui
         label={label}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
+        type={isPassword && !showPassword ? 'password' : 'text'}
         error={error}
         helperText={error ? errorMessage : ''}
-        type={isPassword && showPassword ? 'text' : type}
-        fullWidth
-        variant="outlined"
-        size={variant === 'compact' ? 'small' : 'medium'}
-        sx={{
-          '& .MuiInputBase-input': {
-            color: grayColor,
-            padding,
-          },
-          '& .MuiInputLabel-root': {
-            color: grayColor,
-          },
-          '& .MuiInputBase-input::placeholder': {
-            color: grayColor,
-            opacity: 1,
-          },
-          '& .MuiOutlinedInput-root': {
-            borderColor: error
-              ? 'red'
-              : selected || focused
-                ? '#3b82f6' // blue if focused/selected
-                : 'rgba(0,0,0,0.23)',
-          },
-        }}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         InputProps={{
           startAdornment: startIcon ? (
             <InputAdornment position="start">{startIcon}</InputAdornment>
@@ -88,8 +65,6 @@ const TextField: FC<TextFieldProps> = ({
               <IconButton
                 onClick={() => setShowPassword(!showPassword)}
                 edge="end"
-                size="small"
-                tabIndex={-1}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
@@ -97,29 +72,62 @@ const TextField: FC<TextFieldProps> = ({
           ) : endIcon ? (
             <InputAdornment position="end">{endIcon}</InputAdornment>
           ) : undefined,
+          sx: {
+            backgroundColor,
+            boxSizing: 'border-box',
+          },
         }}
-        inputProps={{
-          list: suggestions.length > 0 ? `${label}-suggestions` : undefined,
-          onFocus: () => setFocused(true),
-          onBlur: () => setFocused(false),
+        InputLabelProps={{
+          shrink: true,
+          sx: {
+            color: textColor,
+            px: 0.5, // padding stânga-dreapta pentru efect decupat
+            zIndex: 1, // ca să stea deasupra border-ului
+            lineHeight: 1.2,
+            backgroundColor, // alb, dar aplicat doar sub text
+            display: 'inline-block',
+            width: 'auto',
+          },
         }}
-        select={suggestions.length > 0}
-      >
-        {suggestions.map((option, i) => (
-          <MenuItem key={i} value={option}>
-            {option}
-          </MenuItem>
-        ))}
-      </TextFieldMui>
-
-      {suggestions.length > 0 && (
-        <datalist id={`${label}-suggestions`}>
-          {suggestions.map((s, i) => (
-            <option key={i} value={s} />
-          ))}
-        </datalist>
-      )}
-    </>
+        sx={{
+          width: '100%',
+          '& .MuiOutlinedInput-root': {
+            backgroundColor,
+            minHeight: height,
+            borderRadius: 1,
+            '& fieldset': {
+              borderColor: error
+                ? '#ff0000'
+                : focused
+                  ? orangeLight
+                  : borderColorDefault,
+            },
+            '&:hover fieldset': {
+              borderColor: focused ? orangeLight : borderColorDefault,
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: orangeLight,
+              borderWidth: 2,
+            },
+          },
+          '& .MuiInputBase-input': {
+            color: textColor,
+            height: height,
+            padding: '0 12px',
+            fontSize: '1rem',
+            boxSizing: 'border-box',
+            backgroundColor,
+            '&::placeholder': {
+              color: textColor,
+              opacity: 1,
+            },
+          },
+          '& .MuiFormHelperText-root': {
+            color: error ? '#ff0000' : textColor,
+          },
+        }}
+      />
+    </div>
   )
 }
 
