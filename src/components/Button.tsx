@@ -46,7 +46,7 @@ export const CustomButton: React.FC<ButtonProps> = ({
       backgroundColor: theme.palette.secondary.light,
 
       '&:hover': {
-        backgroundColor: theme.palette.text.primary,
+        backgroundColor: theme.palette.secondary.dark + '44',
         borderColor: theme.palette.secondary.dark,
       },
     }),
