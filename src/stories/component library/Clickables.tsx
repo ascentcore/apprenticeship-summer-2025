@@ -60,48 +60,95 @@ export type RadioProps = BaseControlProps &
 export type SliderProps = BaseControlProps &
   Omit<React.ComponentProps<typeof MuiSlider>, 'error'>
 
-interface ControlComponentMap {
-  normal: React.ElementType
-  compact: React.ElementType
-}
+function withFormControl<T extends BaseControlProps, P>(ControlComponent: {
+  normal: React.ComponentType<P>
+  compact: React.ComponentType<P>
+}) {
+  return function ControlWrapper(
+    props: T &
+      P & {
+        onChange?: (
+          e: React.ChangeEvent<HTMLInputElement> | Event,
+          value?: unknown
+        ) => void
+        checked?: boolean // for Checkbox, Switch, Radio
+        value?: unknown // for Radio, etc.
+      }
+  ) {
+    const {
+      label,
+      helperText,
+      error = false,
+      disabled = false,
+      variant = 'normal',
+      onChange,
+      checked,
+      value,
+      ...rest
+    } = props
 
-function withFormControl<T extends BaseControlProps>(
-  ControlComponent: ControlComponentMap
-) {
-  return function ControlWrapper({
-    label,
-    helperText,
-    error = false,
-    disabled = false,
-    variant = 'normal',
-    ...props
-  }: T) {
+    const [hasValue, setHasValue] = React.useState<boolean>(
+      !!checked || value !== undefined
+    )
+
     const Control =
       variant === 'compact' ? ControlComponent.compact : ControlComponent.normal
 
+    const handleChange = (
+      e: React.ChangeEvent<HTMLInputElement> | Event,
+      val?: unknown
+    ) => {
+      if ('target' in e && e.target instanceof HTMLInputElement) {
+        setHasValue(e.target.checked)
+      } else if (val !== undefined) {
+        setHasValue(val !== '' && val !== null)
+      }
+      onChange?.(e, val)
+    }
+
+    const showError = error && !hasValue
+    const showHelperText = helperText && !hasValue
+
     return (
-      <FormControl error={error} disabled={disabled} sx={{ m: 1 }}>
+      <FormControl error={showError} disabled={disabled} sx={{ m: 1 }}>
         <FormControlLabel
-          control={<Control {...props} disabled={disabled} />}
+          control={
+            <Control
+              {...(rest as P)}
+              checked={checked}
+              value={value}
+              disabled={disabled}
+              onChange={handleChange}
+            />
+          }
           label={label}
         />
-        {helperText && <FormHelperText>{helperText}</FormHelperText>}
+        {showHelperText && <FormHelperText>{helperText}</FormHelperText>}
       </FormControl>
     )
   }
 }
 
-export const Switch = withFormControl<SwitchProps>({
+export const Switch = withFormControl<
+  SwitchProps,
+  React.ComponentProps<typeof MuiSwitch>
+>({
   normal: MuiSwitch,
   compact: CompactSwitch,
 })
 
-export const Checkbox = withFormControl<CheckboxProps>({
+export const Checkbox = withFormControl<
+  CheckboxProps,
+  React.ComponentProps<typeof MuiCheckbox>
+>({
   normal: MuiCheckbox,
   compact: CompactCheckbox,
 })
 
-export const Radio = withFormControl<RadioProps>({
+export const Radio = withFormControl<
+  RadioProps,
+  React.ComponentProps<typeof MuiRadio>
+>({
   normal: MuiRadio,
   compact: CompactRadio,
 })
@@ -127,13 +174,34 @@ export function RadioGroupWrapper({
   onChange,
   children,
 }: RadioGroupWrapperProps) {
+  const [hasValue, setHasValue] = React.useState<boolean>(false)
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    val: string
+  ) => {
+    setHasValue(val !== '' && val !== null)
+    onChange?.(event, val)
+  }
+
+  const showError = error && !hasValue
+  const showHelperText = helperText && !hasValue
+
+  // clone children so they respect the "disabled" prop from wrapper
+  const clonedChildren = React.Children.map(children, (child) => {
+    if (React.isValidElement<React.ComponentProps<typeof Radio>>(child)) {
+      return React.cloneElement(child, { disabled })
+    }
+    return child
+  })
+
   return (
-    <FormControl error={error} disabled={disabled} sx={{ m: 1 }}>
+    <FormControl error={showError} disabled={disabled} sx={{ m: 1 }}>
       {label && <label style={{ marginBottom: 4 }}>{label}</label>}
-      <MuiRadioGroup row={row} value={value} onChange={onChange}>
-        {children}
+      <MuiRadioGroup row={row} value={value ?? ''} onChange={handleChange}>
+        {clonedChildren}
       </MuiRadioGroup>
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
+      {showHelperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   )
 }
@@ -144,14 +212,43 @@ export function Slider({
   error = false,
   disabled = false,
   variant = 'normal',
+  onChange,
+  value,
   ...props
-}: SliderProps) {
+}: SliderProps & {
+  onChange?: (e: Event, value: number | number[]) => void
+}) {
+  const [hasValue, setHasValue] = React.useState<boolean>(() => {
+    if (Array.isArray(value)) {
+      return value.every((v) => v > 50)
+    }
+    return typeof value === 'number' ? value > 50 : false
+  })
+
   const Control = variant === 'compact' ? CompactSlider : MuiSlider
+
+  const handleChange = (e: Event, val: number | number[]) => {
+    if (Array.isArray(val)) {
+      setHasValue(val.every((v) => v > 50))
+    } else {
+      setHasValue(val > 50)
+    }
+    onChange?.(e, val)
+  }
+
+  const showError = error && !hasValue
+  const showHelperText = helperText && !hasValue
+
   return (
-    <FormControl error={error} disabled={disabled} sx={{ m: 1 }}>
+    <FormControl error={showError} disabled={disabled} sx={{ m: 1 }}>
       {label && <label style={{ marginBottom: 4 }}>{label}</label>}
-      <Control {...props} disabled={disabled} />
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
+      <Control
+        {...props}
+        value={value}
+        disabled={disabled}
+        onChange={handleChange}
+      />
+      {showHelperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   )
 }
