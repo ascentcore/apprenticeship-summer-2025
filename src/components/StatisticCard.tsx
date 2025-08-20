@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { NumberHandler } from '../functions/NumberHandler'
 
 type PresetColor = 'normal' | 'urgent' | 'custom1'
 
@@ -20,14 +21,6 @@ interface StatisticCardProps {
   backgroundImage?: string
   onClick?: () => void
   tooltip?: string
-}
-
-const formatValue = (val: number | string) => {
-  if (typeof val !== 'number') return val
-  if (val >= 1_000_000_000) return `${(val / 1_000_000_000).toFixed(2)}b`
-  if (val >= 1_000_000) return `${(val / 1_000_000).toFixed(2)}m`
-  if (val >= 1_000) return `${(val / 1_000).toFixed(2)}k`
-  return val
 }
 
 const StatisticCard: React.FC<StatisticCardProps> = ({
@@ -44,7 +37,6 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
   const theme = useTheme()
 
   const backgroundColor = customColor || theme.palette.statisticCard[color].bg
-
   const subtitleTextColor =
     subtitleColor ||
     (theme.palette.statisticCard[color].subtitle
@@ -68,7 +60,7 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
         sx={{ color: theme.palette.statisticCard.title, fontWeight: 700 }}
         aria-label={`Primary value: ${value}`}
       >
-        {formatValue(value)}
+        <NumberHandler value={value} />
       </Typography>
 
       {subtitle && (

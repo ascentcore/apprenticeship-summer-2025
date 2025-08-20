@@ -4,17 +4,27 @@ interface NumberHandlerProps {
   value: number | string
 }
 
-const formatNumber = (val: number | string): string => {
-  const num = typeof val === 'string' ? parseFloat(val) : val
-  if (isNaN(num)) return String(val)
-
-  const rounded = Math.round(num)
-
-  if (rounded >= 1_000_000) return `${Math.round(rounded / 1_000_000)}M`
-  if (rounded >= 1_000) return `${Math.round(rounded / 1_000)}K`
-  return String(rounded)
-}
-
 export const NumberHandler: React.FC<NumberHandlerProps> = ({ value }) => {
-  return <>{formatNumber(value)}</>
+  let val: number
+  if (typeof value !== 'number') val = parseFloat(value)
+  else val = value
+
+  if (isNaN(val)) return <span>{value}</span>
+
+  // Formatarea numerelor mari
+  let formatted: string
+  if (val >= 1e15) formatted = `${(val / 1e15).toFixed(2)}qa`
+  else if (val >= 1e12) formatted = `${(val / 1e12).toFixed(2)}t`
+  else if (val >= 1e9) formatted = `${(val / 1e9).toFixed(2)}b`
+  else if (val >= 1e6) formatted = `${(val / 1e6).toFixed(2)}m`
+  else if (val >= 1e3) formatted = `${(val / 1e3).toFixed(2)}k`
+  else formatted = val.toString()
+
+  // Ajustarea dimensiunii fontului în funcție de lungime
+  let fontSize = 24 // dimensiune default
+  const extraChars = formatted.length - 6
+  if (extraChars >= 3) fontSize -= 2
+  if (extraChars >= 6) fontSize -= 2
+
+  return <span style={{ fontSize: `${fontSize}px` }}>{formatted}</span>
 }

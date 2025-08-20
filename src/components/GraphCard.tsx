@@ -10,6 +10,7 @@ import {
 } from 'chart.js'
 import type { ChartOptions, ChartData } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
+import { NumberHandler } from '../functions/NumberHandler'
 
 ChartJS.register(
   CategoryScale,
@@ -72,7 +73,7 @@ export default function GraphCard({
           {title}
         </Typography>
         <Typography variant="h5" fontWeight="bold" color="text.secondary">
-          {value}
+          ${<NumberHandler value={value} />}
         </Typography>
         {secondaryText && (
           <Typography variant="body2" color="text.secondary">
