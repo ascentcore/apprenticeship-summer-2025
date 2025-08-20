@@ -90,7 +90,7 @@ export const NewEmployees: Story = {
   ),
 }
 
-export const memeCard: Story = {
+export const MemeCard: Story = {
   args: {
     title: '🤙🏻😜🤘🏻',
     value: 69000000000,
