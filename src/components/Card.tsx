@@ -5,6 +5,7 @@ import {
   IconButton,
   Box,
   Typography,
+  Tooltip,
 } from '@mui/material'
 import {
   PushPin as PushPinIcon,
@@ -104,6 +105,55 @@ export const CustomCard: React.FC<CardProps> = ({
     justifyContent: 'space-between',
   }
 
+  const TextWithEllipsis: React.FC<{
+    text: string
+    fontSize?: number
+    color?: string
+    mb?: number
+  }> = ({ text, fontSize, color, mb = 0 }) => (
+    <Tooltip title={text} arrow>
+      <Typography
+        sx={{
+          fontWeight: 600,
+          fontSize,
+          lineHeight: 1.2,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          mb,
+          cursor: 'default',
+          color,
+        }}
+      >
+        {text}
+      </Typography>
+    </Tooltip>
+  )
+
+  const SecondaryTextWithEllipsis: React.FC<{
+    text: string
+    fontSize?: number
+    color?: string
+  }> = ({ text, fontSize, color }) => (
+    <Tooltip title={text} arrow>
+      <Typography
+        variant="body2"
+        sx={{
+          fontSize,
+          lineHeight: 1.2,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          flex: 1,
+          cursor: 'default',
+          color,
+        }}
+      >
+        {text}
+      </Typography>
+    </Tooltip>
+  )
+
   return (
     <MuiCard sx={customStyles}>
       <CardContent
@@ -121,20 +171,11 @@ export const CustomCard: React.FC<CardProps> = ({
         {size === 'small' ? (
           <>
             <Box sx={{ pr: 0 }}>
-              <Typography
-                title={primaryText}
-                sx={{
-                  fontWeight: 600,
-                  fontSize: primaryFontSize,
-                  lineHeight: 1,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  mb: secondaryText ? 0.5 : 0,
-                }}
-              >
-                {primaryText}
-              </Typography>
+              <TextWithEllipsis
+                text={primaryText}
+                fontSize={primaryFontSize}
+                mb={secondaryText ? 0.5 : 0}
+              />
             </Box>
             {secondaryText && (
               <Box
@@ -145,21 +186,11 @@ export const CustomCard: React.FC<CardProps> = ({
                   gap: 1,
                 }}
               >
-                <Typography
-                  title={secondaryText}
-                  variant="body2"
+                <SecondaryTextWithEllipsis
+                  text={secondaryText}
+                  fontSize={secondaryFontSize}
                   color="text.secondary"
-                  sx={{
-                    fontSize: secondaryFontSize,
-                    lineHeight: 1.2,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    flex: 1,
-                  }}
-                >
-                  {secondaryText}
-                </Typography>
+                />
                 <Box sx={{ display: 'flex', gap: 0.5 }}>
                   <IconButton
                     size="small"
@@ -196,35 +227,17 @@ export const CustomCard: React.FC<CardProps> = ({
                 justifyContent: 'center',
               }}
             >
-              <Typography
-                title={primaryText}
-                sx={{
-                  fontWeight: 600,
-                  fontSize: primaryFontSize,
-                  lineHeight: 1.2,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  marginBottom: 0.5,
-                }}
-              >
-                {primaryText}
-              </Typography>
+              <TextWithEllipsis
+                text={primaryText}
+                fontSize={primaryFontSize}
+                mb={0.5}
+              />
               {secondaryText && (
-                <Typography
-                  title={secondaryText}
-                  variant="body2"
+                <SecondaryTextWithEllipsis
+                  text={secondaryText}
+                  fontSize={secondaryFontSize}
                   color="text.secondary"
-                  sx={{
-                    fontSize: secondaryFontSize,
-                    lineHeight: 1.2,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {secondaryText}
-                </Typography>
+                />
               )}
             </Box>
 
