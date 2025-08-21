@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {
   Card,
   CardActionArea,
@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { NumberHandler } from '../functions/NumberHandler'
 
 type PresetColor = 'normal' | 'urgent' | 'custom1'
 
@@ -22,12 +23,39 @@ interface StatisticCardProps {
   tooltip?: string
 }
 
-const formatValue = (val: number | string) => {
-  if (typeof val !== 'number') return val
-  if (val >= 1_000_000_000) return `${(val / 1_000_000_000).toFixed(2)}b`
-  if (val >= 1_000_000) return `${(val / 1_000_000).toFixed(2)}m`
-  if (val >= 1_000) return `${(val / 1_000).toFixed(2)}k`
-  return val
+const EllipsisTooltip: React.FC<
+  Omit<React.ComponentProps<typeof Typography>, 'component'> & {
+    children: React.ReactNode
+    component?: React.ElementType
+  }
+> = ({ children, component = 'span', ...props }) => {
+  const textRef = useRef<HTMLSpanElement>(null)
+  const [isOverflowed, setIsOverflowed] = useState(false)
+
+  useEffect(() => {
+    const el = textRef.current
+    if (el) {
+      setIsOverflowed(el.scrollWidth > el.clientWidth)
+    }
+  }, [children])
+
+  return (
+    <Tooltip
+      title={isOverflowed ? (children as string) : ''}
+      arrow
+      disableInteractive
+    >
+      <Typography
+        ref={textRef}
+        noWrap
+        component={component}
+        {...props}
+        sx={{ overflow: 'hidden', textOverflow: 'ellipsis', ...props.sx }}
+      >
+        {children}
+      </Typography>
+    </Tooltip>
+  )
 }
 
 const StatisticCard: React.FC<StatisticCardProps> = ({
@@ -44,7 +72,6 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
   const theme = useTheme()
 
   const backgroundColor = customColor || theme.palette.statisticCard[color].bg
-
   const subtitleTextColor =
     subtitleColor ||
     (theme.palette.statisticCard[color].subtitle
@@ -53,39 +80,39 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
 
   const cardContent = (
     <CardContent>
-      <Typography
+      <EllipsisTooltip
         variant="subtitle1"
         component="h2"
         sx={{ color: theme.palette.statisticCard.title, fontWeight: 600 }}
         aria-label={`Card title: ${title}`}
       >
         {title}
-      </Typography>
+      </EllipsisTooltip>
 
-      <Typography
+      <EllipsisTooltip
         variant="h4"
         component="h3"
         sx={{ color: theme.palette.statisticCard.title, fontWeight: 700 }}
         aria-label={`Primary value: ${value}`}
       >
-        {formatValue(value)}
-      </Typography>
+        <NumberHandler value={value} />
+      </EllipsisTooltip>
 
       {subtitle && (
-        <Typography
+        <EllipsisTooltip
           variant="subtitle2"
           component="p"
           sx={{ color: subtitleTextColor, fontWeight: 500 }}
           aria-label={`Subtitle: ${subtitle}`}
         >
           {subtitle}
-        </Typography>
+        </EllipsisTooltip>
       )}
     </CardContent>
   )
 
   return (
-    <Tooltip title={tooltip || ''} arrow>
+    <Tooltip title={tooltip || ''} arrow disableInteractive>
       <Card
         sx={{
           backgroundColor: backgroundImage ? 'transparent' : backgroundColor,

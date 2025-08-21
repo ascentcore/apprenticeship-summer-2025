@@ -10,6 +10,7 @@ import {
 } from 'chart.js'
 import type { ChartOptions, ChartData } from 'chart.js'
 import { Line, Bar } from 'react-chartjs-2'
+import { NumberHandler } from '../functions/NumberHandler'
 
 ChartJS.register(
   CategoryScale,
@@ -68,17 +69,42 @@ export default function GraphCard({
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', p: 2 }}>
       <CardContent sx={{ flex: '1 0 auto', p: 0 }}>
-        <Typography variant="subtitle2" color="text.secondary">
+        {/* Title with ellipsis */}
+        <Typography
+          variant="subtitle2"
+          color="text.secondary"
+          noWrap
+          title={title}
+          sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
+        >
           {title}
         </Typography>
-        <Typography variant="h5" fontWeight="bold" color="text.secondary">
-          {value}
+
+        {/* Value with ellipsis */}
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          color="text.secondary"
+          noWrap
+          title={value.toString()}
+          sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
+        >
+          {<NumberHandler value={value} />}
         </Typography>
+
+        {/* Secondary text with ellipsis */}
         {secondaryText && (
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            noWrap
+            title={secondaryText}
+            sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
+          >
             {secondaryText}
           </Typography>
         )}
+
         <Box sx={{ height: 80, mt: 1 }}>{renderChart()}</Box>
       </CardContent>
     </Card>
