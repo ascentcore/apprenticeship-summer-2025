@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {
   Card,
   CardActionArea,
@@ -23,6 +23,41 @@ interface StatisticCardProps {
   tooltip?: string
 }
 
+const EllipsisTooltip: React.FC<
+  Omit<React.ComponentProps<typeof Typography>, 'component'> & {
+    children: React.ReactNode
+    component?: React.ElementType
+  }
+> = ({ children, component = 'span', ...props }) => {
+  const textRef = useRef<HTMLSpanElement>(null)
+  const [isOverflowed, setIsOverflowed] = useState(false)
+
+  useEffect(() => {
+    const el = textRef.current
+    if (el) {
+      setIsOverflowed(el.scrollWidth > el.clientWidth)
+    }
+  }, [children])
+
+  return (
+    <Tooltip
+      title={isOverflowed ? (children as string) : ''}
+      arrow
+      disableInteractive
+    >
+      <Typography
+        ref={textRef}
+        noWrap
+        component={component}
+        {...props}
+        sx={{ overflow: 'hidden', textOverflow: 'ellipsis', ...props.sx }}
+      >
+        {children}
+      </Typography>
+    </Tooltip>
+  )
+}
+
 const StatisticCard: React.FC<StatisticCardProps> = ({
   title,
   value,
@@ -43,68 +78,41 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
       ? theme.palette.statisticCard[color].subtitle
       : '#003585')
 
-  const textEllipsisSx = {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-  }
-
   const cardContent = (
     <CardContent>
-      {/* Title with ellipsis + tooltip */}
-      <Tooltip title={title} arrow>
-        <Typography
-          variant="subtitle1"
-          component="h2"
-          sx={{
-            ...textEllipsisSx,
-            color: theme.palette.statisticCard.title,
-            fontWeight: 600,
-          }}
-          aria-label={`Card title: ${title}`}
-        >
-          {title}
-        </Typography>
-      </Tooltip>
+      <EllipsisTooltip
+        variant="subtitle1"
+        component="h2"
+        sx={{ color: theme.palette.statisticCard.title, fontWeight: 600 }}
+        aria-label={`Card title: ${title}`}
+      >
+        {title}
+      </EllipsisTooltip>
 
-      {/* Value with ellipsis + tooltip */}
-      <Tooltip title={value.toString()} arrow>
-        <Typography
-          variant="h4"
-          component="h3"
-          sx={{
-            ...textEllipsisSx,
-            color: theme.palette.statisticCard.title,
-            fontWeight: 700,
-          }}
-          aria-label={`Primary value: ${value}`}
-        >
-          <NumberHandler value={value} />
-        </Typography>
-      </Tooltip>
+      <EllipsisTooltip
+        variant="h4"
+        component="h3"
+        sx={{ color: theme.palette.statisticCard.title, fontWeight: 700 }}
+        aria-label={`Primary value: ${value}`}
+      >
+        <NumberHandler value={value} />
+      </EllipsisTooltip>
 
-      {/* Subtitle with ellipsis + tooltip */}
       {subtitle && (
-        <Tooltip title={subtitle} arrow>
-          <Typography
-            variant="subtitle2"
-            component="p"
-            sx={{
-              ...textEllipsisSx,
-              color: subtitleTextColor,
-              fontWeight: 500,
-            }}
-            aria-label={`Subtitle: ${subtitle}`}
-          >
-            {subtitle}
-          </Typography>
-        </Tooltip>
+        <EllipsisTooltip
+          variant="subtitle2"
+          component="p"
+          sx={{ color: subtitleTextColor, fontWeight: 500 }}
+          aria-label={`Subtitle: ${subtitle}`}
+        >
+          {subtitle}
+        </EllipsisTooltip>
       )}
     </CardContent>
   )
 
   return (
-    <Tooltip title={tooltip || ''} arrow>
+    <Tooltip title={tooltip || ''} arrow disableInteractive>
       <Card
         sx={{
           backgroundColor: backgroundImage ? 'transparent' : backgroundColor,

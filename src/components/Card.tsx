@@ -38,7 +38,7 @@ const sizeStyles: Record<
   CardSize,
   {
     width?: number
-    height: 64
+    height: number
     px: number
     py: number
     primaryFontSize: number
@@ -66,6 +66,43 @@ const sizeStyles: Record<
     ...reusableStyles,
   },
 }
+
+// ✅ Unified component
+const TextWithEllipsis: React.FC<{
+  text: string
+  fontSize?: number
+  color?: string
+  mb?: number
+  variant?: 'body2' | 'body1' | 'subtitle1' | 'subtitle2'
+  fontWeight?: number
+}> = ({
+  text,
+  fontSize,
+  color,
+  mb = 0,
+  variant = 'body2',
+  fontWeight = 600,
+}) => (
+  <Tooltip title={text} arrow>
+    <Typography
+      variant={variant}
+      sx={{
+        fontWeight,
+        fontSize,
+        lineHeight: 1.2,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        mb,
+        cursor: 'default',
+        color,
+        flex: 1,
+      }}
+    >
+      {text}
+    </Typography>
+  </Tooltip>
+)
 
 export const CustomCard: React.FC<CardProps> = ({
   size = 'normal',
@@ -105,55 +142,6 @@ export const CustomCard: React.FC<CardProps> = ({
     justifyContent: 'space-between',
   }
 
-  const TextWithEllipsis: React.FC<{
-    text: string
-    fontSize?: number
-    color?: string
-    mb?: number
-  }> = ({ text, fontSize, color, mb = 0 }) => (
-    <Tooltip title={text} arrow>
-      <Typography
-        sx={{
-          fontWeight: 600,
-          fontSize,
-          lineHeight: 1.2,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          mb,
-          cursor: 'default',
-          color,
-        }}
-      >
-        {text}
-      </Typography>
-    </Tooltip>
-  )
-
-  const SecondaryTextWithEllipsis: React.FC<{
-    text: string
-    fontSize?: number
-    color?: string
-  }> = ({ text, fontSize, color }) => (
-    <Tooltip title={text} arrow>
-      <Typography
-        variant="body2"
-        sx={{
-          fontSize,
-          lineHeight: 1.2,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          flex: 1,
-          cursor: 'default',
-          color,
-        }}
-      >
-        {text}
-      </Typography>
-    </Tooltip>
-  )
-
   return (
     <MuiCard sx={customStyles}>
       <CardContent
@@ -175,6 +163,7 @@ export const CustomCard: React.FC<CardProps> = ({
                 text={primaryText}
                 fontSize={primaryFontSize}
                 mb={secondaryText ? 0.5 : 0}
+                variant="subtitle2"
               />
             </Box>
             {secondaryText && (
@@ -186,10 +175,12 @@ export const CustomCard: React.FC<CardProps> = ({
                   gap: 1,
                 }}
               >
-                <SecondaryTextWithEllipsis
+                <TextWithEllipsis
                   text={secondaryText}
                   fontSize={secondaryFontSize}
                   color="text.secondary"
+                  variant="body2"
+                  fontWeight={400}
                 />
                 <Box sx={{ display: 'flex', gap: 0.5 }}>
                   <IconButton
@@ -231,12 +222,15 @@ export const CustomCard: React.FC<CardProps> = ({
                 text={primaryText}
                 fontSize={primaryFontSize}
                 mb={0.5}
+                variant="subtitle1"
               />
               {secondaryText && (
-                <SecondaryTextWithEllipsis
+                <TextWithEllipsis
                   text={secondaryText}
                   fontSize={secondaryFontSize}
                   color="text.secondary"
+                  variant="body2"
+                  fontWeight={400}
                 />
               )}
             </Box>

@@ -89,7 +89,7 @@ export default function GraphCard({
           title={value.toString()}
           sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}
         >
-          ${<NumberHandler value={value} />}
+          {<NumberHandler value={value} />}
         </Typography>
 
         {/* Secondary text with ellipsis */}
