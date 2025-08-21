@@ -3,7 +3,6 @@ import {
   TextField as TextFieldMui,
   InputAdornment,
   IconButton,
-  Tooltip,
 } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles'
@@ -20,7 +19,6 @@ interface TextFieldProps {
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
   variant?: 'normal' | 'compact'
-  ellipsis?: boolean // new prop to enable ellipsis
 }
 
 const TextField = ({
@@ -35,7 +33,6 @@ const TextField = ({
   startIcon,
   endIcon,
   variant = 'normal',
-  ellipsis = false,
 }: TextFieldProps) => {
   const [showPassword, setShowPassword] = useState(false)
   const [focused, setFocused] = useState(false)
@@ -44,7 +41,7 @@ const TextField = ({
   const height = variant === 'compact' ? 36 : 48
   const isPassword = type === 'password'
 
-  const inputElement = (
+  return (
     <TextFieldMui
       label={label}
       value={value}
@@ -75,16 +72,6 @@ const TextField = ({
         sx: {
           backgroundColor: 'transparent',
           boxSizing: 'border-box',
-        },
-        inputProps: {
-          title: ellipsis ? value : undefined, // show full text on hover
-          style: ellipsis
-            ? {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }
-            : {},
         },
       }}
       InputLabelProps={{
@@ -141,12 +128,6 @@ const TextField = ({
         },
       }}
     />
-  )
-
-  return ellipsis ? (
-    <Tooltip title={value}>{inputElement}</Tooltip>
-  ) : (
-    inputElement
   )
 }
 
