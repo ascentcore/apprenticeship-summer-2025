@@ -11,17 +11,21 @@ export const NumberHandler: React.FC<NumberHandlerProps> = ({ value }) => {
 
   if (isNaN(val)) return <span>{value}</span>
 
-  // Formatarea numerelor mari
+  const formatNumber = (num: number, divisor: number, suffix: string) => {
+    const result = num / divisor
+    const formatted = result % 1 === 0 ? result.toFixed(0) : result.toFixed(1)
+    return `${formatted}${suffix}`
+  }
+
   let formatted: string
-  if (val >= 1e15) formatted = `${(val / 1e15).toFixed(2)}qa`
-  else if (val >= 1e12) formatted = `${(val / 1e12).toFixed(2)}t`
-  else if (val >= 1e9) formatted = `${(val / 1e9).toFixed(2)}b`
-  else if (val >= 1e6) formatted = `${(val / 1e6).toFixed(2)}m`
-  else if (val >= 1e3) formatted = `${(val / 1e3).toFixed(2)}k`
+  if (val >= 1e15) formatted = formatNumber(val, 1e15, 'qa')
+  else if (val >= 1e12) formatted = formatNumber(val, 1e12, 't')
+  else if (val >= 1e9) formatted = formatNumber(val, 1e9, 'b')
+  else if (val >= 1e6) formatted = formatNumber(val, 1e6, 'm')
+  else if (val >= 1e3) formatted = formatNumber(val, 1e3, 'k')
   else formatted = val.toString()
 
-  // Ajustarea dimensiunii fontului în funcție de lungime
-  let fontSize = 24 // dimensiune default
+  let fontSize = 24
   const extraChars = formatted.length - 6
   if (extraChars >= 3) fontSize -= 2
   if (extraChars >= 6) fontSize -= 2
