@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { ChangeEvent, FC } from 'react'
+import PropTypes from 'prop-types'
 import {
   Dialog,
   DialogTitle,
@@ -10,18 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 
-interface CustomDialogProps {
-  open: boolean
-  onClose: () => void
-  title?: string
-  message?: string
-  showTextField?: boolean
-  showSubmitButton?: boolean
-  onSubmit?: (value: string) => void
-  submitButtonText?: string
-}
-
-const CustomDialog: FC<CustomDialogProps> = ({
+const CustomDialog = ({
   open,
   onClose,
   title,
@@ -33,7 +22,7 @@ const CustomDialog: FC<CustomDialogProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState('')
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event) => {
     setInputValue(event.target.value)
   }
 
@@ -70,6 +59,17 @@ const CustomDialog: FC<CustomDialogProps> = ({
       </DialogActions>
     </Dialog>
   )
+}
+
+CustomDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string,
+  message: PropTypes.string,
+  showTextField: PropTypes.bool,
+  showSubmitButton: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  submitButtonText: PropTypes.string,
 }
 
 export default CustomDialog
