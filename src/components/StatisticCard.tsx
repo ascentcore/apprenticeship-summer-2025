@@ -43,35 +43,62 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
       ? theme.palette.statisticCard[color].subtitle
       : '#003585')
 
+  const textEllipsisSx = {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  }
+
   const cardContent = (
     <CardContent>
-      <Typography
-        variant="subtitle1"
-        component="h2"
-        sx={{ color: theme.palette.statisticCard.title, fontWeight: 600 }}
-        aria-label={`Card title: ${title}`}
-      >
-        {title}
-      </Typography>
-
-      <Typography
-        variant="h4"
-        component="h3"
-        sx={{ color: theme.palette.statisticCard.title, fontWeight: 700 }}
-        aria-label={`Primary value: ${value}`}
-      >
-        <NumberHandler value={value} />
-      </Typography>
-
-      {subtitle && (
+      {/* Title with ellipsis + tooltip */}
+      <Tooltip title={title} arrow>
         <Typography
-          variant="subtitle2"
-          component="p"
-          sx={{ color: subtitleTextColor, fontWeight: 500 }}
-          aria-label={`Subtitle: ${subtitle}`}
+          variant="subtitle1"
+          component="h2"
+          sx={{
+            ...textEllipsisSx,
+            color: theme.palette.statisticCard.title,
+            fontWeight: 600,
+          }}
+          aria-label={`Card title: ${title}`}
         >
-          {subtitle}
+          {title}
         </Typography>
+      </Tooltip>
+
+      {/* Value with ellipsis + tooltip */}
+      <Tooltip title={value.toString()} arrow>
+        <Typography
+          variant="h4"
+          component="h3"
+          sx={{
+            ...textEllipsisSx,
+            color: theme.palette.statisticCard.title,
+            fontWeight: 700,
+          }}
+          aria-label={`Primary value: ${value}`}
+        >
+          <NumberHandler value={value} />
+        </Typography>
+      </Tooltip>
+
+      {/* Subtitle with ellipsis + tooltip */}
+      {subtitle && (
+        <Tooltip title={subtitle} arrow>
+          <Typography
+            variant="subtitle2"
+            component="p"
+            sx={{
+              ...textEllipsisSx,
+              color: subtitleTextColor,
+              fontWeight: 500,
+            }}
+            aria-label={`Subtitle: ${subtitle}`}
+          >
+            {subtitle}
+          </Typography>
+        </Tooltip>
       )}
     </CardContent>
   )

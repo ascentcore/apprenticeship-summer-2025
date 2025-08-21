@@ -122,6 +122,7 @@ export const CustomCard: React.FC<CardProps> = ({
           <>
             <Box sx={{ pr: 0 }}>
               <Typography
+                title={primaryText}
                 sx={{
                   fontWeight: 600,
                   fontSize: primaryFontSize,
@@ -145,6 +146,7 @@ export const CustomCard: React.FC<CardProps> = ({
                 }}
               >
                 <Typography
+                  title={secondaryText}
                   variant="body2"
                   color="text.secondary"
                   sx={{
@@ -195,6 +197,7 @@ export const CustomCard: React.FC<CardProps> = ({
               }}
             >
               <Typography
+                title={primaryText}
                 sx={{
                   fontWeight: 600,
                   fontSize: primaryFontSize,
@@ -209,6 +212,7 @@ export const CustomCard: React.FC<CardProps> = ({
               </Typography>
               {secondaryText && (
                 <Typography
+                  title={secondaryText}
                   variant="body2"
                   color="text.secondary"
                   sx={{
