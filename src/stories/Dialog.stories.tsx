@@ -13,7 +13,7 @@ type Story = StoryObj<typeof CustomDialog>
 
 export const Default: Story = {
   render: (args) => {
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false) // start closed
 
     const handleClose = () => setOpen(false)
     const handleSubmit = (value: string) => alert(`Submitted: ${value}`)
@@ -24,7 +24,7 @@ export const Default: Story = {
         <CustomDialog
           {...args}
           open={open}
-          onClose={handleClose}
+          onClose={() => handleClose()}
           onSubmit={handleSubmit}
         />
       </>
@@ -41,13 +41,13 @@ export const Default: Story = {
 
 export const NoTextField: Story = {
   render: (args) => {
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false) // start closed
     const handleClose = () => setOpen(false)
 
     return (
       <>
         <button onClick={() => setOpen(true)}>Open Dialog</button>
-        <CustomDialog {...args} open={open} onClose={handleClose} />
+        <CustomDialog {...args} open={open} onClose={() => handleClose()} />
       </>
     )
   },
@@ -62,13 +62,13 @@ export const NoTextField: Story = {
 
 export const NoSubmitButton: Story = {
   render: (args) => {
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false) // start closed
     const handleClose = () => setOpen(false)
 
     return (
       <>
         <button onClick={() => setOpen(true)}>Open Dialog</button>
-        <CustomDialog {...args} open={open} onClose={handleClose} />
+        <CustomDialog {...args} open={open} onClose={() => handleClose()} />
       </>
     )
   },

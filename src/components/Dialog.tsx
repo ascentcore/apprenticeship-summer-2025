@@ -9,27 +9,28 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import type { DialogProps, TextFieldProps } from '@mui/material' // type-only import
 
-interface CustomDialogProps {
-  open: boolean
-  onClose: () => void
+type CustomDialogProps = Omit<DialogProps, 'onSubmit'> & {
   title?: string
   message?: string
   showTextField?: boolean
   showSubmitButton?: boolean
+  /** Your value-based submit callback (not the DOM submit) */
   onSubmit?: (value: string) => void
   submitButtonText?: string
+  textFieldProps?: TextFieldProps
 }
 
 const CustomDialog: FC<CustomDialogProps> = ({
-  open,
-  onClose,
   title,
   message,
   showTextField = false,
   showSubmitButton = false,
   onSubmit,
   submitButtonText = 'Submit',
+  textFieldProps,
+  ...props // all other Dialog props (open, onClose, sx, etc.)
 }) => {
   const [inputValue, setInputValue] = useState('')
 
@@ -38,14 +39,13 @@ const CustomDialog: FC<CustomDialogProps> = ({
   }
 
   const handleSubmit = () => {
-    if (onSubmit) {
-      onSubmit(inputValue)
-    }
-    onClose()
+    onSubmit?.(inputValue)
+    // Let the consumer's onClose handle closing (provided via ...props)
+    props.onClose?.({}, 'escapeKeyDown')
   }
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog fullWidth maxWidth="sm" {...props}>
       {title && <DialogTitle>{title}</DialogTitle>}
       <DialogContent dividers>
         {message && <Typography>{message}</Typography>}
@@ -57,11 +57,14 @@ const CustomDialog: FC<CustomDialogProps> = ({
             label="Your input"
             value={inputValue}
             onChange={handleInputChange}
+            {...textFieldProps}
           />
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={() => props.onClose?.({}, 'backdropClick')}>
+          Cancel
+        </Button>
         {showSubmitButton && (
           <Button variant="contained" onClick={handleSubmit}>
             {submitButtonText}
