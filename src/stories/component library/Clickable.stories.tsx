@@ -122,6 +122,8 @@ export const ContainerTests: Story = {
   render: () => {
     const [radioValue1, setRadioValue1] = useState('optionA')
     const [radioValue2, setRadioValue2] = useState('optionA')
+    const [errorSwitch, setErrorSwitch] = useState(false)
+    const [sliderValue, setSliderValue] = useState(40)
 
     return (
       <Stack spacing={4}>
@@ -143,7 +145,12 @@ export const ContainerTests: Story = {
             <Radio label="Option B" value="optionB" />
           </RadioGroupWrapper>
 
-          <Slider label="Slider" defaultValue={40} />
+          {/* Slider with value display */}
+          <Slider
+            label={`Slider (Value: ${sliderValue})`}
+            value={sliderValue}
+            onChange={(e, val) => setSliderValue(val as number)}
+          />
 
           <RadioGroupWrapper
             label="Another Radio Group"
@@ -153,6 +160,15 @@ export const ContainerTests: Story = {
             <Radio label="Option A" value="optionA" />
             <Radio label="Option B" value="optionB" />
           </RadioGroupWrapper>
+
+          {/* Error-state Switch */}
+          <Switch
+            label="Must be ON"
+            checked={errorSwitch}
+            onChange={(_e, checked) => setErrorSwitch(!!checked)}
+            error={!errorSwitch}
+            helperText={!errorSwitch ? 'This switch must be ON' : undefined}
+          />
         </Box>
       </Stack>
     )

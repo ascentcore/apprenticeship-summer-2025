@@ -11,22 +11,37 @@ import {
   FormHelperText,
 } from '@mui/material'
 
-const CompactSwitch = styled(MuiSwitch)({
-  padding: 4,
-  '& .MuiSwitch-thumb': { width: 18, height: 18 },
-  '& .MuiSwitch-switchBase': { padding: 2 },
+const CompactSwitch = styled(MuiSwitch)(({ theme }) => ({
+  width: 32,
+  height: 18,
+  padding: 0,
+  display: 'flex',
+  alignItems: 'center',
+
+  '& .MuiSwitch-switchBase': {
+    padding: 2,
+    '&.Mui-checked': {
+      transform: 'translateX(14px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        opacity: 1,
+        backgroundColor: theme.palette.primary.main,
+      },
+    },
+  },
+
+  '& .MuiSwitch-thumb': {
+    width: 12,
+    height: 12,
+    boxShadow: 'none',
+  },
+
   '& .MuiSwitch-track': {
-    borderRadius: 12,
-    height: 14,
-    width: '100%',
-    marginTop: 2,
-    marginBottom: 2,
-    boxSizing: 'border-box',
+    borderRadius: 18 / 2,
+    opacity: 1,
+    backgroundColor: theme.palette.grey[400],
   },
-  '& .Mui-checked': {
-    transform: 'translateX(38px)',
-  },
-})
+}))
 
 const CompactCheckbox = styled(MuiCheckbox)({
   padding: 4,
@@ -40,7 +55,7 @@ const CompactRadio = styled(MuiRadio)({
 
 const CompactSlider = styled(MuiSlider)({
   height: 4,
-  '& .MuiSlider-thumb': { width: 14, height: 14 },
+  '& .MuiSlider-thumb': { display: 'none' },
 })
 
 export interface BaseControlProps {
@@ -71,8 +86,8 @@ function withFormControl<T extends BaseControlProps, P>(ControlComponent: {
           e: React.ChangeEvent<HTMLInputElement> | Event,
           value?: unknown
         ) => void
-        checked?: boolean // for Checkbox, Switch, Radio
-        value?: unknown // for Radio, etc.
+        checked?: boolean
+        value?: unknown
       }
   ) {
     const {
@@ -122,8 +137,15 @@ function withFormControl<T extends BaseControlProps, P>(ControlComponent: {
             />
           }
           label={label}
+          sx={{ alignItems: 'center', marginLeft: 0 }}
         />
-        {showHelperText && <FormHelperText>{helperText}</FormHelperText>}
+        <FormHelperText
+          sx={{
+            visibility: showHelperText ? 'visible' : 'hidden',
+          }}
+        >
+          {helperText}
+        </FormHelperText>
       </FormControl>
     )
   }
@@ -187,7 +209,6 @@ export function RadioGroupWrapper({
   const showError = error && !hasValue
   const showHelperText = helperText && !hasValue
 
-  // clone children so they respect the "disabled" prop from wrapper
   const clonedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement<React.ComponentProps<typeof Radio>>(child)) {
       return React.cloneElement(child, { disabled })
@@ -201,7 +222,13 @@ export function RadioGroupWrapper({
       <MuiRadioGroup row={row} value={value ?? ''} onChange={handleChange}>
         {clonedChildren}
       </MuiRadioGroup>
-      {showHelperText && <FormHelperText>{helperText}</FormHelperText>}
+      <FormHelperText
+        sx={{
+          visibility: showHelperText ? 'visible' : 'hidden',
+        }}
+      >
+        {helperText}
+      </FormHelperText>
     </FormControl>
   )
 }
@@ -248,7 +275,13 @@ export function Slider({
         disabled={disabled}
         onChange={handleChange}
       />
-      {showHelperText && <FormHelperText>{helperText}</FormHelperText>}
+      <FormHelperText
+        sx={{
+          visibility: showHelperText ? 'visible' : 'hidden',
+        }}
+      >
+        {helperText}
+      </FormHelperText>
     </FormControl>
   )
 }
