@@ -1,17 +1,11 @@
 import React from 'react'
-import {
-  Card as MuiCard,
-  CardContent,
-  IconButton,
-  Box,
-  Typography,
-  Tooltip,
-} from '@mui/material'
+import { Card as MuiCard, CardContent, IconButton, Box } from '@mui/material'
 import {
   PushPin as PushPinIcon,
   MoreVert as MoreVertIcon,
 } from '@mui/icons-material'
 import type { SxProps, Theme } from '@mui/material/styles'
+import TextWithEllipsis from './TextWithEllipsis' // ✅ import
 
 type CardSize = 'small' | 'normal' | 'big'
 
@@ -67,43 +61,6 @@ const sizeStyles: Record<
   },
 }
 
-// ✅ Unified component
-const TextWithEllipsis: React.FC<{
-  text: string
-  fontSize?: number
-  color?: string
-  mb?: number
-  variant?: 'body2' | 'body1' | 'subtitle1' | 'subtitle2'
-  fontWeight?: number
-}> = ({
-  text,
-  fontSize,
-  color,
-  mb = 0,
-  variant = 'body2',
-  fontWeight = 600,
-}) => (
-  <Tooltip title={text} arrow>
-    <Typography
-      variant={variant}
-      sx={{
-        fontWeight,
-        fontSize,
-        lineHeight: 1.2,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        mb,
-        cursor: 'default',
-        color,
-        flex: 1,
-      }}
-    >
-      {text}
-    </Typography>
-  </Tooltip>
-)
-
 export const CustomCard: React.FC<CardProps> = ({
   size = 'normal',
   disabled = false,
@@ -135,8 +92,8 @@ export const CustomCard: React.FC<CardProps> = ({
     color: disabled ? '#aaa' : '#000',
     pointerEvents: disabled ? 'none' : 'auto',
     opacity: disabled ? 0.6 : 1,
-    px: px,
-    py: py,
+    px,
+    py,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
