@@ -7,7 +7,7 @@ interface TextWithEllipsisProps {
   fontSize?: number
   color?: string
   mb?: number
-  variant?: TypographyProps['variant'] // all MUI variants allowed
+  variant?: TypographyProps['variant']
   fontWeight?: number
   children?: React.ReactNode
 }
@@ -40,7 +40,8 @@ const TextWithEllipsis: React.FC<TextWithEllipsisProps> = ({
           mb,
           cursor: 'default',
           color,
-          flex: 1,
+          maxWidth: '100%',
+          display: 'block',
         }}
       >
         {displayContent}

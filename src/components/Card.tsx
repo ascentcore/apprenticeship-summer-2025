@@ -167,12 +167,14 @@ export const CustomCard: React.FC<CardProps> = ({
                 position: 'absolute',
                 top: '50%',
                 left: px * 8,
-                right: 48,
+                right: 64, // 🔹 lăsăm mai mult spațiu pt iconuri
                 transform: 'translateY(-50%)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 justifyContent: 'center',
+                minWidth: 0,
+                overflow: 'hidden',
               }}
             >
               <TextWithEllipsis
