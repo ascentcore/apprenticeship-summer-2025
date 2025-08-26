@@ -257,3 +257,5 @@ export const CustomCard: React.FC<CardProps> = ({
     </MuiCard>
   )
 }
+
+export const Card = CustomCard

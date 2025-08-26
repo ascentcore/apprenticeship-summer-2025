@@ -6,7 +6,6 @@ import {
   Typography,
   Tooltip,
 } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
 
 type PresetColor = 'normal' | 'urgent' | 'custom1'
 
@@ -41,22 +40,21 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
   onClick,
   tooltip,
 }) => {
-  const theme = useTheme()
+  const presetColors: Record<PresetColor, { bg: string; subtitle: string }> = {
+    normal: { bg: '#f0f0f0', subtitle: '#555' },
+    urgent: { bg: '#ffcccc', subtitle: '#a00' },
+    custom1: { bg: '#cce5ff', subtitle: '#004085' },
+  }
 
-  const backgroundColor = customColor || theme.palette.statisticCard[color].bg
-
-  const subtitleTextColor =
-    subtitleColor ||
-    (theme.palette.statisticCard[color].subtitle
-      ? theme.palette.statisticCard[color].subtitle
-      : '#003585')
+  const backgroundColor = customColor || presetColors[color].bg
+  const subtitleTextColor = subtitleColor || presetColors[color].subtitle
 
   const cardContent = (
     <CardContent>
       <Typography
         variant="subtitle1"
         component="h2"
-        sx={{ color: theme.palette.statisticCard.title, fontWeight: 600 }}
+        sx={{ color: '#000', fontWeight: 600 }}
         aria-label={`Card title: ${title}`}
       >
         {title}
@@ -65,7 +63,7 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
       <Typography
         variant="h4"
         component="h3"
-        sx={{ color: theme.palette.statisticCard.title, fontWeight: 700 }}
+        sx={{ color: '#000', fontWeight: 700 }}
         aria-label={`Primary value: ${value}`}
       >
         {formatValue(value)}
