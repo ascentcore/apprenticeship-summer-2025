@@ -13,7 +13,14 @@ export const NumberHandler: React.FC<NumberHandlerProps> = ({ value }) => {
 
   const formatNumber = (num: number, divisor: number, suffix: string) => {
     const result = num / divisor
-    const formatted = result % 1 === 0 ? result.toFixed(0) : result.toFixed(1)
+    let formatted: string
+
+    if (result < 10 && result % 1 !== 0) {
+      formatted = result.toFixed(1)
+    } else {
+      formatted = Math.round(result).toString()
+    }
+
     return `${formatted}${suffix}`
   }
 
