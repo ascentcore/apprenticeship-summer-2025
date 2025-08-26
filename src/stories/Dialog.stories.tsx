@@ -6,6 +6,14 @@ const meta: Meta<typeof CustomDialog> = {
   title: 'Components/CustomDialog',
   component: CustomDialog,
   tags: ['autodocs'],
+  argTypes: {
+    fullScreen: { control: 'boolean' },
+    maxWidth: {
+      control: 'select',
+      options: ['xs', 'sm', 'md', 'lg', 'xl', false],
+    },
+    sx: { control: 'object' },
+  },
 }
 
 export default meta
@@ -13,8 +21,7 @@ type Story = StoryObj<typeof CustomDialog>
 
 export const Default: Story = {
   render: (args) => {
-    const [open, setOpen] = useState(false) // start closed
-
+    const [open, setOpen] = useState(false)
     const handleClose = () => setOpen(false)
     const handleSubmit = (value: string) => alert(`Submitted: ${value}`)
 
@@ -36,12 +43,14 @@ export const Default: Story = {
     showTextField: true,
     showSubmitButton: true,
     submitButtonText: 'Send',
+
+    maxWidth: 'md',
   },
 }
 
 export const NoTextField: Story = {
   render: (args) => {
-    const [open, setOpen] = useState(false) // start closed
+    const [open, setOpen] = useState(false)
     const handleClose = () => setOpen(false)
 
     return (
@@ -57,12 +66,14 @@ export const NoTextField: Story = {
     showTextField: false,
     showSubmitButton: true,
     submitButtonText: 'Ok',
+
+    fullScreen: true,
   },
 }
 
 export const NoSubmitButton: Story = {
   render: (args) => {
-    const [open, setOpen] = useState(false) // start closed
+    const [open, setOpen] = useState(false)
     const handleClose = () => setOpen(false)
 
     return (
@@ -77,5 +88,7 @@ export const NoSubmitButton: Story = {
     message: 'This dialog does not have a submit button.',
     showTextField: true,
     showSubmitButton: false,
+
+    sx: { '& .MuiDialog-paper': { border: '2px solid red' } },
   },
 }
