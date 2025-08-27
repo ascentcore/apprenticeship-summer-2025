@@ -1,12 +1,8 @@
 import React from 'react'
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-  Tooltip,
-} from '@mui/material'
+import { Card, CardActionArea, CardContent, Tooltip } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { NumberHandler } from '../functions/NumberHandler'
+import TextWithEllipsis from './TextWithEllipsis'
 
 type PresetColor = 'normal' | 'urgent' | 'custom1'
 
@@ -20,14 +16,6 @@ interface StatisticCardProps {
   backgroundImage?: string
   onClick?: () => void
   tooltip?: string
-}
-
-const formatValue = (val: number | string) => {
-  if (typeof val !== 'number') return val
-  if (val >= 1_000_000_000) return `${(val / 1_000_000_000).toFixed(2)}b`
-  if (val >= 1_000_000) return `${(val / 1_000_000).toFixed(2)}m`
-  if (val >= 1_000) return `${(val / 1_000).toFixed(2)}k`
-  return val
 }
 
 const StatisticCard: React.FC<StatisticCardProps> = ({
@@ -44,7 +32,6 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
   const theme = useTheme()
 
   const backgroundColor = customColor || theme.palette.statisticCard[color].bg
-
   const subtitleTextColor =
     subtitleColor ||
     (theme.palette.statisticCard[color].subtitle
@@ -53,39 +40,36 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
 
   const cardContent = (
     <CardContent>
-      <Typography
+      <TextWithEllipsis
+        text={title}
         variant="subtitle1"
-        component="h2"
-        sx={{ color: theme.palette.statisticCard.title, fontWeight: 600 }}
-        aria-label={`Card title: ${title}`}
-      >
-        {title}
-      </Typography>
+        fontWeight={600}
+        color={theme.palette.statisticCard.title}
+      />
 
-      <Typography
+      <TextWithEllipsis
+        text={String(value)}
         variant="h4"
-        component="h3"
-        sx={{ color: theme.palette.statisticCard.title, fontWeight: 700 }}
-        aria-label={`Primary value: ${value}`}
+        fontWeight={700}
+        color={theme.palette.statisticCard.title}
       >
-        {formatValue(value)}
-      </Typography>
+        {/* You can still wrap NumberHandler if needed */}
+        <NumberHandler value={value} />
+      </TextWithEllipsis>
 
       {subtitle && (
-        <Typography
+        <TextWithEllipsis
+          text={subtitle}
           variant="subtitle2"
-          component="p"
-          sx={{ color: subtitleTextColor, fontWeight: 500 }}
-          aria-label={`Subtitle: ${subtitle}`}
-        >
-          {subtitle}
-        </Typography>
+          fontWeight={500}
+          color={subtitleTextColor}
+        />
       )}
     </CardContent>
   )
 
   return (
-    <Tooltip title={tooltip || ''} arrow>
+    <Tooltip title={tooltip || ''} arrow disableInteractive>
       <Card
         sx={{
           backgroundColor: backgroundImage ? 'transparent' : backgroundColor,
