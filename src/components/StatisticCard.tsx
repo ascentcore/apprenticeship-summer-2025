@@ -40,10 +40,11 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
   onClick,
   tooltip,
 }) => {
+  // paletă culori predefinite
   const presetColors: Record<PresetColor, { bg: string; subtitle: string }> = {
-    normal: { bg: '#f0f0f0', subtitle: '#555' },
-    urgent: { bg: '#ffcccc', subtitle: '#a00' },
-    custom1: { bg: '#cce5ff', subtitle: '#004085' },
+    normal: { bg: '#f9f9f9', subtitle: '#555' },
+    urgent: { bg: '#ffe5e5', subtitle: '#c62828' },
+    custom1: { bg: '#e3f2fd', subtitle: '#1565c0' },
   }
 
   const backgroundColor = customColor || presetColors[color].bg
@@ -54,8 +55,7 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
       <Typography
         variant="subtitle1"
         component="h2"
-        sx={{ color: '#000', fontWeight: 600 }}
-        aria-label={`Card title: ${title}`}
+        sx={{ color: '#111', fontWeight: 600 }}
       >
         {title}
       </Typography>
@@ -64,7 +64,6 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
         variant="h4"
         component="h3"
         sx={{ color: '#000', fontWeight: 700 }}
-        aria-label={`Primary value: ${value}`}
       >
         {formatValue(value)}
       </Typography>
@@ -74,7 +73,6 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
           variant="subtitle2"
           component="p"
           sx={{ color: subtitleTextColor, fontWeight: 500 }}
-          aria-label={`Subtitle: ${subtitle}`}
         >
           {subtitle}
         </Typography>
@@ -94,19 +92,9 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
           borderRadius: 3,
           display: 'inline-block',
         }}
-        role="region"
-        aria-label={`Statistic card for ${title}`}
       >
         {onClick ? (
-          <CardActionArea
-            onClick={onClick}
-            sx={{
-              '&:focus': { outline: 'none' },
-              '&:focus-visible': { outline: 'none', boxShadow: 'none' },
-            }}
-          >
-            {cardContent}
-          </CardActionArea>
+          <CardActionArea onClick={onClick}>{cardContent}</CardActionArea>
         ) : (
           cardContent
         )}
