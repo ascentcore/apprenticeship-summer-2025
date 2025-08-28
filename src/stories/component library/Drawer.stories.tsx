@@ -26,6 +26,14 @@ const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',
   component: Drawer,
   tags: ['autodocs'],
+  argTypes: {
+    backdrop: {
+      control: { type: 'select' },
+      options: ['darken', 'blur', 'none'],
+      description: 'Backdrop style for the drawer',
+      defaultValue: 'darken',
+    },
+  },
 }
 
 export default meta
@@ -33,7 +41,10 @@ export default meta
 type Story = StoryObj<typeof Drawer>
 
 export const Default: Story = {
-  render: () => {
+  args: {
+    backdrop: 'darken',
+  },
+  render: ({ backdrop }) => {
     const [openLeft, setOpenLeft] = useState(false)
     const [openRight, setOpenRight] = useState(false)
     const [activeItem, setActiveItem] = useState<string>('')
@@ -160,6 +171,7 @@ export const Default: Story = {
           onOpen={() => setOpenLeft(true)}
           onClose={() => setOpenLeft(false)}
           anchor="left"
+          backdrop={backdrop}
         >
           {drawerContent}
         </Drawer>
@@ -169,6 +181,7 @@ export const Default: Story = {
           onOpen={() => setOpenRight(true)}
           onClose={() => setOpenRight(false)}
           anchor="right"
+          backdrop={backdrop}
         >
           {drawerContent}
         </Drawer>
