@@ -20,6 +20,8 @@ const CompactSwitch = styled(MuiSwitch)(({ theme }) => ({
 
   '& .MuiSwitch-switchBase': {
     padding: 2,
+    margin: 0,
+    transitionDuration: '200ms',
     '&.Mui-checked': {
       transform: 'translateX(14px)',
       color: '#fff',
@@ -34,12 +36,14 @@ const CompactSwitch = styled(MuiSwitch)(({ theme }) => ({
     width: 12,
     height: 12,
     boxShadow: 'none',
+    margin: '1px', // centers it vertically in the 18px track
   },
 
   '& .MuiSwitch-track': {
-    borderRadius: 18 / 2,
+    borderRadius: 9,
     opacity: 1,
     backgroundColor: theme.palette.grey[400],
+    boxSizing: 'border-box',
   },
 }))
 
